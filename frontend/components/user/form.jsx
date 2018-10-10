@@ -7,6 +7,8 @@ class UserForm extends React.Component {
     this.state = props.user;
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.errorsHTML = this.errorsHTML.bind(this);
+    this.nameHTML = this.nameHTML.bind(this);
   }
 
   update(field) {
@@ -19,37 +21,39 @@ class UserForm extends React.Component {
       .then(() => this.props.history.push("/"));
   }
 
-  render () {
+  errorsHTML() {
     const errors = this.props.errors;
-    let errorsHTML = '';
-    if (errors.length > 0) {
-      errorsHTML = (
-        <ul className="errors">
-          { errors.map(error => <li key={error}>{error}</li>) }
-        </ul>
-      );
-    }
-    let nameHTML = '';
-    if (this.props.includeName === true) {
-      nameHTML = (
-        <div className="names">
-          <input
-            type="text"
-            placeholder="First name"
-            value={this.state.firstName}
-            onChange={this.update('firstName')} />
-          <input
-            type="text"
-            placeholder="Last name"
-            value={this.state.lastName}
-            onChange={this.update('lastName')} />
-        </div>
-      );
-    }
+    if (errors.length === 0) return '';
+    return (
+      <ul className="errors">
+        { errors.map(error => <li key={error}>{error}</li>) }
+      </ul>
+    );
+  }
+
+  nameHTML() {
+    if (this.props.includeName === false) return '';
+    return (
+      <div className="names">
+        <input
+          type="text"
+          placeholder="First name"
+          value={this.state.firstName}
+          onChange={this.update('firstName')} />
+        <input
+          type="text"
+          placeholder="Last name"
+          value={this.state.lastName}
+          onChange={this.update('lastName')} />
+      </div>
+    );
+  }
+
+  render () {
     return (
       <form onSubmit={this.handleSubmit}>
-        { errorsHTML }
-        { nameHTML }
+        { this.errorsHTML() }
+        { this.nameHTML() }
         <input
           type="email"
           placeholder="Email address"
