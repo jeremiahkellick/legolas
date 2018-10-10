@@ -35,7 +35,7 @@ header {
     line-height: 34px;
     outline: none;
     padding: 1px 24px 1px 52px;
-    width: 402px;
+    width: 478px;
     transition: border-color .15s ease-out, box-shadow .15s ease-out;
     &::placeholder {
       transition: color .15s ease-out;
@@ -69,10 +69,15 @@ nav {
       margin-right: 0;
     }
   }
-  a {
+  a, button {
+    border: none;
     color: rgb(23, 23, 24);
+    cursor: pointer;
+    display: inline;
     font-size: 13px;
     font-weight: 500;
+    margin: 0;
+    padding: 0;
     text-decoration: none;
     &:hover {
       color: #21ce99;

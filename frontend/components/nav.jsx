@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import LogOutButton from './session/log_out_button';
 
 const Nav = ({ loggedIn }) => (
   <nav>
@@ -8,6 +9,7 @@ const Nav = ({ loggedIn }) => (
       loggedIn ? (
         <ul>
           <li><Link to="/">Home</Link></li>
+          <li><LogOutButton /></li>
         </ul>
       ) : (
         <ul>

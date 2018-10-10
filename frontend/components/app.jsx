@@ -11,6 +11,7 @@ import Search from './search/search';
 import Nav from './nav';
 import Dashboard from './dashboard';
 import Splash from './splash';
+import LogInPage from './session/log_in_page';
 import SignUpPage from './user/sign_up_page';
 import ErrorsCleanerContainer from './errors_cleaner/errors_cleaner_container';
 
@@ -29,6 +30,7 @@ const App = props => (
           <RenderIfLoggedOut component={Splash} />
         </div>
       } />
+    <AuthRoute path="/log_in" component={LogInPage} />
       <AuthRoute path="/sign_up" component={SignUpPage} />
     </main>
   </div>
