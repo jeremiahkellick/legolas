@@ -10,6 +10,7 @@ class UserForm extends React.Component {
     this.submitThenRedirect = this.submitThenRedirect.bind(this);
     this.errorsHTML = this.errorsHTML.bind(this);
     this.nameHTML = this.nameHTML.bind(this);
+    this.demoButton = this.demoButton.bind(this);
     this.enterDemoCredentails = this.enterDemoCredentails.bind(this);
   }
 
@@ -38,7 +39,7 @@ class UserForm extends React.Component {
   }
 
   nameHTML() {
-    if (this.props.includeName === false) return '';
+    if (this.props.includeName !== true) return '';
     return (
       <div className="names">
         <input
@@ -52,6 +53,13 @@ class UserForm extends React.Component {
           value={this.state.lastName}
           onChange={this.update('lastName')} />
       </div>
+    );
+  }
+
+  demoButton() {
+    if (this.props.demoButton !== true) return '';
+    return (
+      <input type="submit" onClick={this.enterDemoCredentails} value="Demo"/>
     );
   }
 
@@ -95,7 +103,7 @@ class UserForm extends React.Component {
           value={this.state.password}
           onChange={this.update('password')} />
         <input type="submit" value={this.props.submitText} />
-        <input type="submit" onClick={this.enterDemoCredentails} value="Demo"/>
+        { this.demoButton() }
       </form>
     );
   }

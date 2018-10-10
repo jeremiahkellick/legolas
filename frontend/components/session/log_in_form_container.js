@@ -8,6 +8,7 @@ const mapStateToProps = state => ({
     password: ''
   },
   submitText: 'Sign In',
+  demoButton: true,
   includeName: false,
   errors: state.errors
 });
