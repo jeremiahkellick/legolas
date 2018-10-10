@@ -8,7 +8,7 @@
       href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
       rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all' %>
-    <% if user_signed_in? %>
+    <% if logged_in? %>
       <script type="text/javascript">
         window.currentUser = <%=
           render('api/users/user.json.jbuilder', user: current_user).html_safe
