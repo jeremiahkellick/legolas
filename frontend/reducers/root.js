@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
+import errorsReducer from './errors';
 
-const RootReducer = (state = {}, action) => state;
+const rootReducer = combineReducers({ errors: errorsReducer });
 
-export default RootReducer;
+export default rootReducer;

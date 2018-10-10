@@ -1,0 +1,104 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+}
+
+body.light {
+  background: white;
+  color: rgb(23, 23, 24);
+}
+
+.app {
+  margin: auto;
+  max-width: 1024px;
+}
+
+main {
+  padding-top: 36px;
+}
+
+.sign-up {
+  display: flex;
+  font-size: 24px;
+  font-weight: 100;
+  h1 {
+    font-weight: inherit;
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+  .sign-up-form {
+    flex: 2;
+    margin-right: 20px;
+  }
+  .sidebar {
+    flex: 1;
+  }
+  ::placeholder {
+    color: rgb(177, 191, 196);
+  }
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"] {
+    border: 1px solid rgb(177, 191, 196);
+    font-weight: 300;
+  }
+}
+
+.names {
+  display: flex;
+  input {
+    margin-bottom: 0;
+  }
+  :first-child {
+    margin-right: 24px;
+  }
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin: 0;
+}
+
+h1 {
+  font-size: 36px;
+  font-weight: 500;
+  margin: 0;
+}
+
+input {
+  color: inherit;
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: block;
+  font-size: 18px;
+  margin: 24px 0;
+  padding: 10px 16px 10px 18px;
+  width: 100%;
+  &[type="text"],
+  &[type="email"],
+  &[type="password"],
+  &[type="number"] {
+    border: 1px solid #f4f4f5;
+    outline: none;
+    transition: border-color ease-in-out .15s;
+    &:focus {
+      border-color: #21ce99;
+    }
+  }
+  &[type="submit"] {
+    background: #21ce99;
+    border: none;
+    color: white;
+  }
+}
+
+::placeholder {
+  color: #cbcbcd;
+}
+
+@import "header";

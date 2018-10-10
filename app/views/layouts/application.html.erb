@@ -4,20 +4,21 @@
     <title>Legolas</title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700"
+      rel="stylesheet">
     <%= stylesheet_link_tag    'application', media: 'all' %>
     <% if user_signed_in? %>
       <script type="text/javascript">
         window.currentUser = <%=
-          render('api/users/user.json.jbuilder', user: current_user).html_safe 
+          render('api/users/user.json.jbuilder', user: current_user).html_safe
         %>
       </script>
     <% end %>
     <%= javascript_include_tag 'application' %>
   </head>
 
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+  <body class="light">
     <%= yield %>
   </body>
 </html>
