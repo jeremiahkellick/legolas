@@ -4,6 +4,10 @@ import configureStore from './store/store';
 import Root from './components/root';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const preloadedState = {};
+  if (window.currentUser) {
+    preloadedState.session = { currentUser: window.currentUser };
+  }
   const store = configureStore();
 
   // TODO: Remove from window
