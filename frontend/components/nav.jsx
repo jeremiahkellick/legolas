@@ -23,4 +23,4 @@ const mapStateToProps = state => ({
   loggedIn: Boolean(state.session.currentUser)
 });
 
-export default Nav;
+export default connect(mapStateToProps)(Nav);
