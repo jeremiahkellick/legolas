@@ -1,0 +1,17 @@
+.sign-up {
+  display: flex;
+  font-size: 24px;
+  font-weight: 100;
+  h1 {
+    font-weight: inherit;
+    font-size: 48px;
+    margin-bottom: 12px;
+  }
+  .sign-up-form {
+    flex: 2;
+    margin-right: 20px;
+  }
+  .sidebar {
+    flex: 1;
+  }
+}

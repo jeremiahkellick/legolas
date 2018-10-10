@@ -22,34 +22,6 @@ main {
   padding-top: 36px;
 }
 
-.sign-up {
-  display: flex;
-  font-size: 24px;
-  font-weight: 100;
-  h1 {
-    font-weight: inherit;
-    font-size: 48px;
-    margin-bottom: 12px;
-  }
-  .sign-up-form {
-    flex: 2;
-    margin-right: 20px;
-  }
-  .sidebar {
-    flex: 1;
-  }
-  ::placeholder {
-    color: rgb(177, 191, 196);
-  }
-  input[type="text"],
-  input[type="email"],
-  input[type="password"],
-  input[type="number"] {
-    border: 1px solid rgb(177, 191, 196);
-    font-weight: 300;
-  }
-}
-
 .names {
   display: flex;
   input {
@@ -70,7 +42,7 @@ h1 {
   margin: 0;
 }
 
-input {
+input, button {
   color: inherit;
   border-radius: 4px;
   box-sizing: border-box;
@@ -83,22 +55,27 @@ input {
   &[type="email"],
   &[type="password"],
   &[type="number"] {
-    border: 1px solid #f4f4f5;
+    border: 1px solid rgb(177, 191, 196);
+    font-weight: 300;
     outline: none;
     transition: border-color ease-in-out .15s;
     &:focus {
       border-color: #21ce99;
     }
   }
-  &[type="submit"] {
-    background: #21ce99;
-    border: none;
-    color: white;
+}
+
+input[type="submit"], button {
+  background: #21ce99;
+  border: none;
+  color: white;
+  &:hover, &:active {
+    background: #1aa278;
   }
 }
 
 ::placeholder {
-  color: #cbcbcd;
+  color: rgb(177, 191, 196);
 }
 
 .errors {
@@ -107,3 +84,4 @@ input {
 }
 
 @import "header";
+@import "components/sign_up";

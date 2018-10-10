@@ -30,7 +30,11 @@ header {
     transform: translateY(-50%);
     transition: fill .15s ease-out;
   }
+  ::placeholder {
+    color: #cbcbcd;
+  }
   input {
+    border: 1px solid #f4f4f5;
     font-size: 13px;
     line-height: 34px;
     outline: none;
