@@ -3,22 +3,9 @@ require 'rails_helper'
 RSpec.describe Api::UsersController, type: :controller do
   describe "#create" do
     context "when given valid params" do
-      it "creates a user" do
-        expect do
-          user = FactoryBot.build(:user)
-          post :create, format: :json, params: {
-            user: {
-              email: user.email,
-              first_name: user.first_name,
-              last_name: user.last_name,
-              password: user.password
-            }
-          }
-        end.to change { User.count }
-      end
+      let(:user) { FactoryBot.build(:user) }
 
-      it "renders the new user" do
-        user = FactoryBot.build(:user)
+      before(:each) do
         post :create, format: :json, params: {
           user: {
             email: user.email,
@@ -27,7 +14,18 @@ RSpec.describe Api::UsersController, type: :controller do
             password: user.password
           }
         }
+      end
+
+      it "creates a user" do
+        expect(User.last.email).to eq(user.email)
+      end
+
+      it "renders the new user" do
         expect(response).to render_template(:show)
+      end
+
+      it "logs the client in as the new user" do
+        expect(controller.current_user.email).to eq(user.email)
       end
     end
 
