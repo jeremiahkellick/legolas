@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (window.currentUser) {
     preloadedState.session = { currentUser: window.currentUser };
   }
-  const store = configureStore();
+  const store = configureStore(preloadedState);
 
   // TODO: Remove from window
   window.getState = store.getState;
