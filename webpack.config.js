@@ -21,7 +21,7 @@ module.exports = {
       }
     ]
   },
-  devtool: 'source-map',
+  devtool: 'inline-source-map',
   resolve: {
     extensions: [".js", ".jsx", "*"]
   }
