@@ -7,8 +7,10 @@ class UserForm extends React.Component {
     this.state = props.user;
     this.update = this.update.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.submitThenRedirect = this.submitThenRedirect.bind(this);
     this.errorsHTML = this.errorsHTML.bind(this);
     this.nameHTML = this.nameHTML.bind(this);
+    this.enterDemoCredentails = this.enterDemoCredentails.bind(this);
   }
 
   update(field) {
@@ -17,6 +19,10 @@ class UserForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    this.submitThenRedirect();
+  }
+
+  submitThenRedirect() {
     this.props.submitAction(this.state)
       .then(() => this.props.history.push("/"));
   }
@@ -49,6 +55,30 @@ class UserForm extends React.Component {
     );
   }
 
+  enterDemoCredentails(e) {
+    e.preventDefault();
+    const chars = {};
+    chars.email = 'demouser@example.com'.split('');
+    chars.password = 'demouserpassword'.split('');
+    const enterChar = (field) => {
+      this.setState(
+        { [field]: this.state[field] + chars[field].shift() },
+        () => {
+          if (chars[field].length > 0) {
+            setTimeout(() => enterChar(field), 15);
+          } else {
+            if (field === 'email') {
+              enterChar('password');
+            } else {
+              this.submitThenRedirect();
+            }
+          }
+        }
+      );
+    };
+    enterChar('email');
+  }
+
   render () {
     return (
       <form onSubmit={this.handleSubmit}>
@@ -65,6 +95,7 @@ class UserForm extends React.Component {
           value={this.state.password}
           onChange={this.update('password')} />
         <input type="submit" value={this.props.submitText} />
+        <input type="submit" onClick={this.enterDemoCredentails} value="Demo"/>
       </form>
     );
   }
