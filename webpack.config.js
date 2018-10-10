@@ -1,5 +1,5 @@
 const path = require('path');
-console.log(path.resolve(__dirname, 'app', 'assets', 'javascripts'));
+
 module.exports = {
   context: __dirname,
   entry: "./frontend/legolas.jsx",
