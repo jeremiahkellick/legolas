@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Route, Link } from 'react-router-dom';
+import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {
   AuthRoute,
   RenderIfLoggedIn,
@@ -24,14 +24,17 @@ const App = props => (
     </header>
     <main>
       <ErrorsCleanerContainer />
-      <Route exact path="/" render={() =>
-        <div>
-          <RenderIfLoggedIn component={Dashboard} />
-          <RenderIfLoggedOut component={Splash} />
-        </div>
-      } />
-    <AuthRoute path="/log_in" component={LogInPage} />
-      <AuthRoute path="/sign_up" component={SignUpPage} />
+      <Switch>
+        <AuthRoute path="/log_in" component={LogInPage} />
+        <AuthRoute path="/sign_up" component={SignUpPage} />
+        <Route exact path="/" render={() =>
+          <div>
+            <RenderIfLoggedIn component={Dashboard} />
+            <RenderIfLoggedOut component={Splash} />
+          </div>
+        } />
+        <Route path="/" render={() => <Redirect to="/" />} />
+      </Switch>
     </main>
   </div>
 );
