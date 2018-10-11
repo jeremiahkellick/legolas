@@ -9,10 +9,28 @@
   }
   .sign-up-form {
     flex: 2;
-    margin-right: 20px;
+    margin-right: 60px;
   }
   .sidebar {
+    align-items: center;
+    display: flex;
     flex: 1;
+    flex-direction: column;
+    padding-top: 22px;
+    text-align: center;
+    .slide-title {
+      font-size: 18px;
+      font-weight: 300;
+      line-height: 24px;
+      margin-top: 10px;
+      margin-bottom: 15px;
+    }
+    .slide-text {
+      color: #b1bfc4;
+      font-size: 16px;
+      font-weight: 300;
+      line-height: 21px;
+    }
   }
 }
 
@@ -26,4 +44,9 @@
       margin-right: 0;
     }
   }
+}
+
+.time-image {
+  width: 212px;
+  height: 214px;
 }

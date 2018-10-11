@@ -111,7 +111,7 @@ class UserForm extends React.Component {
             value={this.state.password}
             onChange={this.update('password')} />
         </label>
-        <div class="buttons">
+        <div className="buttons">
           <input type="submit" value={this.props.submitText} />
           { this.demoButton() }
         </div>
