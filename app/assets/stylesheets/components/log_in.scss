@@ -1,0 +1,71 @@
+.log-in {
+  background: white;
+  display: flex;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  .form-half {
+    align-items: center;
+    display: flex;
+    margin-left: 52px;
+    width: 412px;
+    section {
+      flex: 1;
+    }
+  }
+  .image {
+    background-image: image-url("log_in.png");
+    background-position: center;
+    background-size: cover;
+    flex-basis: 50%;
+  }
+  h1 {
+    font-size: 26px;
+    font-weight: 500;
+    margin-bottom: 16px;
+  }
+  input {
+    font-size: 13px;
+  }
+  label {
+    font-weight: 300;
+    margin: 0;
+    div {
+      font-size: 13px;
+      padding: 9px 0;
+    }
+    input {
+      background: #fafafa;
+      border-color: #fafafa;
+      padding: 15px 20px;
+      &:hover, &:active {
+        background: white;
+        border-color: #cbcbcd;
+      }
+      &:focus {
+        background: white;
+        border-color: #21ce99;
+      }
+    }
+    &:last-of-type {
+      margin-bottom: 60px;
+    }
+  }
+  input[type="submit"] {
+    line-height: 48px;
+    padding: 0;
+    text-align: center;
+    width: 140px;
+  }
+  .buttons {
+    display: flex;
+    :first-child {
+      margin-right: 20px;
+    }
+    input {
+      margin: 0;
+    }
+  }
+}

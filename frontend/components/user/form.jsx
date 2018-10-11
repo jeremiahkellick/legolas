@@ -42,16 +42,20 @@ class UserForm extends React.Component {
     if (this.props.includeName !== true) return '';
     return (
       <div className="names">
-        <input
-          type="text"
-          placeholder="First name"
-          value={this.state.firstName}
-          onChange={this.update('firstName')} />
-        <input
-          type="text"
-          placeholder="Last name"
-          value={this.state.lastName}
-          onChange={this.update('lastName')} />
+        <label>{this.props.placeholder || <div>First name</div>}
+          <input
+            type="text"
+            placeholder={this.props.placeholder ? "First name" : ""}
+            value={this.state.firstName}
+            onChange={this.update('firstName')} />
+        </label>
+        <label>{this.props.placeholder || <div>Last name</div>}
+          <input
+            type="text"
+            placeholder={this.props.placeholder ? "Last name" : ""}
+            value={this.state.lastName}
+            onChange={this.update('lastName')} />
+        </label>
       </div>
     );
   }
@@ -88,22 +92,29 @@ class UserForm extends React.Component {
   }
 
   render () {
+    const placeholder = this.props.placeholder;
     return (
       <form onSubmit={this.handleSubmit}>
         { this.errorsHTML() }
         { this.nameHTML() }
-        <input
-          type="email"
-          placeholder="Email address"
-          value={this.state.email}
-          onChange={this.update('email')} />
-        <input
-          type="password"
-          placeholder="Password (min. 10 characters)"
-          value={this.state.password}
-          onChange={this.update('password')} />
-        <input type="submit" value={this.props.submitText} />
-        { this.demoButton() }
+        <label>{placeholder || <div>Email</div>}
+          <input
+            type="email"
+            placeholder={placeholder ? "Email address" : ""}
+            value={this.state.email}
+            onChange={this.update('email')} />
+        </label>
+        <label>{placeholder || <div>Password</div>}
+          <input
+            type="password"
+            placeholder={placeholder ? "Password (min. 10 characters)" : ""}
+            value={this.state.password}
+            onChange={this.update('password')} />
+        </label>
+        <div class="buttons">
+          <input type="submit" value={this.props.submitText} />
+          { this.demoButton() }
+        </div>
       </form>
     );
   }

@@ -11,6 +11,7 @@ const mapStateToProps = state => ({
   },
   submitText: 'Sign Up',
   includeName: true,
+  placeholder: true,
   errors: state.errors
 });
 

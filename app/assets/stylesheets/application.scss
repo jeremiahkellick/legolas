@@ -22,16 +22,6 @@ main {
   padding-top: 36px;
 }
 
-.names {
-  display: flex;
-  input {
-    margin-bottom: 0;
-  }
-  :first-child {
-    margin-right: 24px;
-  }
-}
-
 h1, h2, h3, h4, h5, h6, p {
   margin: 0;
 }
@@ -42,13 +32,17 @@ h1 {
   margin: 0;
 }
 
+label {
+  display: block;
+  margin: 24px 0;
+}
+
 input, button {
   color: inherit;
   border-radius: 4px;
   box-sizing: border-box;
   display: block;
   font-size: 18px;
-  margin: 24px 0;
   padding: 10px 16px 10px 18px;
   width: 100%;
   &[type="text"],
@@ -69,6 +63,7 @@ input[type="submit"], button {
   background: #21ce99;
   border: none;
   color: white;
+  margin: 24px 0;
   &:hover, &:active {
     background: #1aa278;
   }
@@ -84,4 +79,5 @@ input[type="submit"], button {
 }
 
 @import "header";
+@import "components/log_in";
 @import "components/sign_up";
