@@ -2,7 +2,6 @@
   "name": "legolas",
   "private": true,
   "dependencies": {
-    "lodash": "^4.17.11",
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-redux": "^5.0.7",
@@ -21,7 +20,7 @@
     "npm": "6.1.0"
   },
   "scripts": {
-    "postinstall": "webpack",
+    "postinstall": "webpack --mode=production",
     "webpack": "webpack --watch --mode=development"
   },
   "repository": {
