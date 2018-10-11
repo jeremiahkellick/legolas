@@ -12,11 +12,11 @@ const SignUpPage = props => (
       <SignUpFormContainer />
     </section>
     <section className="sidebar">
-      <img class="time-image" src={timeImage} />
-      <p class="slide-title">
+      <img className="time-image" src={timeImage} />
+      <p className="slide-title">
         Stay on top of your portfolio.<br /> Anytime. Anywhere.
       </p>
-      <p class="slide-text">
+      <p className="slide-text">
         Fast execution, real-time market data, and smart notifications help you
         make the most of the stock market no matter where you are.
       </p>
