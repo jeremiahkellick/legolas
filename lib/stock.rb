@@ -10,28 +10,40 @@ class Stock
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
-    minURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
-    min = HTTParty.get(minURL).parsed_response
-    return nil if min == "Unknown symbol"
-    stock[:price_cents] = (min.first["close"].to_f * 100).round
-    stock["1D"] = extract_times(min, 5)
-    dailyURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
-    daily = HTTParty.get(dailyURL).parsed_response
-    return nil if daily == "Unknown symbol"
-    stock["1M"] = extract_days(daily, 1, 30)
-    stock["3M"] = extract_days(daily, 1, 90)
-    stock["1Y"] = extract_days(daily, 1, 365)
-    stock["5Y"] = extract_days(daily, 7)
+    iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
+    iexDay = HTTParty.get(iexDayURL).parsed_response
+    return nil if iexDay == "Unknown symbol"
+    stock[:price_cents] = (iexDay.first["close"].to_f * 100).round
+    fiveYearURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
+    iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
+    return nil if iexFiveYear == "Unknown symbol"
+    stock.merge!(charts(iexDay, iexFiveYear))
+    iexCompanyURL = "https://api.iextrading.com/1.0/stock/#{symbol}/company"
+    iexCompany = HTTParty.get(iexCompanyURL).parsed_response
+    unless iexCompany == "Unknown symbol"
+      stock.merge!(iexCompany.slice("companyName", "description"))
+    end
     stock
   end
 
   private
 
+  def self.charts(iexDay, iexFiveYear)
+    {
+      "1D" => extract_times(iexDay, 5),
+      "1M" => extract_days(iexFiveYear, 1, 30),
+      "3M" => extract_days(iexFiveYear, 1, 90),
+      "1Y" => extract_days(iexFiveYear, 1, 365),
+      "5Y" => extract_days(iexFiveYear, 7)
+    }
+  end
+
   def self.extract_times(time_series, divisor = 1)
     points = []
     time_series.each_with_index do |data, i|
       next unless i % divisor == 0
-      close = data["close"] || data["marketOpen"]
+      close = data["close"] || data["marketClose"] || nil
+      next if close.nil?
       points << {
         price_cents: (close.to_f * 100).round,
         time: parse_datetime(data)
