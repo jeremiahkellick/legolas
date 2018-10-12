@@ -26,9 +26,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', '~> 3.1.7'
 
 gem 'jquery-rails'
-gem 'money-rails'
+gem 'money-rails', '~> 1.12'
 gem 'olive_branch'
 gem 'rails_12factor'
+gem 'httparty'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -45,6 +46,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.8'
   gem 'factory_bot_rails'
   gem 'faker'
+  gem 'dotenv-rails'
 end
 
 group :development do

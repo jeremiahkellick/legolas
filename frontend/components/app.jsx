@@ -13,6 +13,7 @@ import Dashboard from './dashboard';
 import Splash from './splash';
 import LogInPage from './session/log_in_page';
 import SignUpPage from './user/sign_up_page';
+import StockPage from './stock/stock_page';
 import ErrorsCleanerContainer from './errors_cleaner/errors_cleaner_container';
 
 const App = props => (
@@ -25,14 +26,15 @@ const App = props => (
     <main>
       <ErrorsCleanerContainer />
       <Switch>
-        <AuthRoute path="/log_in" component={LogInPage} />
-        <AuthRoute path="/sign_up" component={SignUpPage} />
         <Route exact path="/" render={() =>
           <div>
             <RenderIfLoggedIn component={Dashboard} />
             <RenderIfLoggedOut component={Splash} />
           </div>
         } />
+        <AuthRoute path="/log_in" component={LogInPage} />
+        <AuthRoute path="/sign_up" component={SignUpPage} />
+        <Route path="/stocks/:symbol" component={StockPage} />
         <Route path="/" render={() => <Redirect to="/" />} />
       </Switch>
     </main>

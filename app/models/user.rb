@@ -12,7 +12,11 @@ class User < ApplicationRecord
   validates :email, :session_token, uniqueness: true
   validates :password, length: { minimum: 10, allow_nil: true }
 
+  monetize :balance_cents
+
   after_initialize :ensure_session_token
+
+  has_many :transactions
 
   def password=(password)
     @password = password
@@ -36,5 +40,20 @@ class User < ApplicationRecord
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
     user && user.is_password?(password) ? user : nil
+  end
+
+  def shares_of(symbol, at_time: Time.now)
+    transactions
+      .where(symbol: symbol.upcase)
+      .where("time <= ?", at_time)
+      .sum(:shares)
+  end
+
+  def shares_hash
+    transactions
+      .group(:symbol)
+      .having("SUM(shares) > 0")
+      .pluck(:symbol, Arel.sql("SUM(shares)"))
+      .to_h
   end
 end
