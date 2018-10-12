@@ -8,70 +8,65 @@ class Stock
 
   def self.info(symbol)
     symbol = symbol.upcase
-    stock = { symbol: symbol };
-    fiveMinURL = "https://www.alphavantage.co/query" +
-      "?function=TIME_SERIES_INTRADAY&symbol=#{symbol}&interval=5min" +
-      "&apikey=#{ENV["API_KEY"]}&outputsize=full"
-    res = HTTParty.get(fiveMinURL).parsed_response
-    return nil if res.key?("Error Message")
-    fiveMin = res["Time Series (5min)"]
-    stock[:price_cents] = (fiveMin.first.last["4. close"].to_f * 100).round
-    stock["1D"] = extract_times(fiveMin, 1, 1)
-    stock["1W"] = extract_times(fiveMin, 5, 2)
-    dailyURL = "https://www.alphavantage.co/query?function=TIME_SERIES_DAILY" +
-      "&symbol=#{symbol}&outputsize=full&apikey=#{ENV["API_KEY"]}"
-    res = HTTParty.get(dailyURL).parsed_response
-    return nil if res.key?("Error Message")
-    daily = res["Time Series (Daily)"]
-    stock["1M"] = extract_days(daily, 31, 1)
-    stock["3M"] = extract_days(daily, 91, 1)
-    stock["1Y"] = extract_days(daily, 365, 1)
-    stock["5Y"] = extract_days(daily, 1_826, 7)
+    lwrSymbol = symbol.downcase
+    stock = { symbol: symbol }
+    minURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
+    min = HTTParty.get(minURL).parsed_response
+    return nil if min == "Unknown symbol"
+    stock[:price_cents] = (min.first["close"].to_f * 100).round
+    stock["1D"] = extract_times(min, 5)
+    dailyURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
+    daily = HTTParty.get(dailyURL).parsed_response
+    return nil if daily == "Unknown symbol"
+    stock["1M"] = extract_days(daily, 1, 30)
+    stock["3M"] = extract_days(daily, 1, 90)
+    stock["1Y"] = extract_days(daily, 1, 365)
+    stock["5Y"] = extract_days(daily, 7)
     stock
   end
 
   private
 
-  def self.extract_times(time_series, days, divisor)
+  def self.extract_times(time_series, divisor = 1)
     points = []
-    day_changes = -1
-    day = nil
-    time_series.each.with_index do |(datetime, data), i|
-      next unless (i + 1) % divisor == 0
-      datetime = parse_datetime(datetime) - 5.minutes
-      day_changes += 1 if day != datetime.day
-      break if day_changes >= days
-      day = datetime.day
-      points.unshift({
-        price_cents: (data["1. open"].to_f * 100).round,
-        time: datetime
-      })
+    time_series.each_with_index do |data, i|
+      next unless i % divisor == 0
+      close = data["close"] || data["marketOpen"]
+      points << {
+        price_cents: (close.to_f * 100).round,
+        time: parse_datetime(data)
+      }
     end
     points
   end
 
-  def self.extract_days(day_series, days, divisor)
+  def self.extract_days(day_series, divisor, days = nil)
     points = []
     first = true
     first_day = nil
-    day_series.each.with_index do |(date, data), i|
-      next unless i % divisor == 0
-      date = parse_date(date)
+    day_series.reverse_each.with_index do |data, i|
+      date = parse_date(data["date"])
       if first
         first_day = date
         first = false
       end
+      day_count = first_day - date
+      next unless day_count % divisor == 0
       points.unshift({
-        price_cents: (data["4. close"].to_f * 100).round,
+        price_cents: (data["open"].to_f * 100).round,
         date: date
       })
-      break if first_day - date >= days
+      break if days && day_count >= days
     end
     points
   end
 
-  def self.parse_datetime(datetime)
-    Time.new(*datetime.split(/[- :]/).push("-04:00"))
+  def self.parse_datetime(data)
+    args = [data["date"][0..3], data["date"][4..5], data["date"][6..7]]
+    args += data["minute"].split(":")
+    args << "00"
+    args << "-04:00"
+    Time.new(*args)
   end
 
   def self.parse_date(date)

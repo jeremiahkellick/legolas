@@ -32,9 +32,9 @@ const App = props => (
             <RenderIfLoggedOut component={Splash} />
           </div>
         } />
-        <AuthRoute path="/log_in" component={LogInPage} />
-        <AuthRoute path="/sign_up" component={SignUpPage} />
-        <Route path="/stocks/:symbol" component={StockPage} />
+        <AuthRoute exact path="/log_in" component={LogInPage} />
+        <AuthRoute exact path="/sign_up" component={SignUpPage} />
+        <Route exact path="/stocks/:symbol" component={StockPage} />
         <Route path="/" render={() => <Redirect to="/" />} />
       </Switch>
     </main>
