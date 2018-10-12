@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchStock } from '../../actions/stock';
+import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 
 class StockPage extends React.Component {
   constructor(props) {
@@ -28,8 +29,23 @@ class StockPage extends React.Component {
 
   render () {
     if (!this.props.stock) return '';
+    // debugger;
     return (
-      <h1>{this.props.stock.symbol}</h1>
+      <div>
+        <h1>{this.props.stock.symbol}</h1>
+        <LineChart width={676} height={196} data={this.props.stock['1D']}>
+          <XAxis dataKey="time" hide={true} />
+          <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
+          <Line
+            type="monotone"
+            dataKey="priceCents"
+            stroke="#82ca9d"
+            dot={false}
+            activeDot={{ r: 4 }}
+            type="linear" />
+          <Tooltip/>
+        </LineChart>
+      </div>
     );
   }
 }

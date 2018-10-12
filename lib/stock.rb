@@ -42,10 +42,10 @@ class Stock
       day_changes += 1 if day != datetime.day
       break if day_changes >= days
       day = datetime.day
-      points << {
+      points.unshift({
         price_cents: (data["1. open"].to_f * 100).round,
         time: datetime
-      }
+      })
     end
     points
   end
@@ -61,10 +61,10 @@ class Stock
         first_day = date
         first = false
       end
-      points << {
+      points.unshift({
         price_cents: (data["4. close"].to_f * 100).round,
         date: date
-      }
+      })
       break if first_day - date >= days
     end
     points
