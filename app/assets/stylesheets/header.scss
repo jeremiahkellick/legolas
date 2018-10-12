@@ -1,7 +1,7 @@
 header {
-  align-items: center;
-  display: flex;
-  height: 64px;
+  height: 50px;
+  overflow: visible;
+  padding-top: 14px;
 }
 
 .logo {
@@ -9,6 +9,7 @@ header {
   fill: currentColor;
   left: 48px;
   position: absolute;
+  top: 6px;
   transition: color 0.3s ease-out 0s;
 }
 
@@ -21,49 +22,85 @@ header {
 }
 
 .search-bar {
+  background: white;
+  border: 1px solid #f4f4f5;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 13px;
+  padding: 1px 0 1px 0;
   position: relative;
-  .search-icon {
-    fill: #cbcbcd;
-    left: 24px;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: fill .15s ease-out;
+  transition: border-color .15s ease-out, box-shadow .15s ease-out;
+  width: 478px;
+  z-index: 5;
+  a {
+    color: rgb(23, 23, 24);
+    text-decoration: none;
   }
   ::placeholder {
     color: #cbcbcd;
   }
+  &::placeholder {
+    transition: color .15s ease-out;
+  }
+  .search-icon {
+    fill: #cbcbcd;
+    left: 24px;
+    position: absolute;
+    top: 9px;
+    transition: fill .15s ease-out;
+  }
   input {
-    border: 1px solid #f4f4f5;
-    font-size: 13px;
+    border: none;
+    font-size: inherit;
     line-height: 34px;
     outline: none;
-    padding: 1px 24px 1px 52px;
-    width: 478px;
-    transition: border-color .15s ease-out, box-shadow .15s ease-out;
-    &::placeholder {
-      transition: color .15s ease-out;
-    }
+    padding: 0 24px 0 52px;
+    width: 100%;
   }
-  input:hover, input:focus {
+  &:hover, &.focus {
     border-color: white;
     box-shadow: 0 0 4px 1px rgba(0,0,0,.01), 0 3px 24px rgba(48,51,51,.09);
     &::placeholder {
       color: rgb(23, 23, 24);
     }
-    & + .search-icon {
+    .search-icon {
       fill: rgb(23, 23, 24);
     }
   }
   ul {
-    position: absolute;
-    top: 100%;
+    // display: none;
+    font-size: 13px;
+    font-weight: 500;
+    list-style: none;
+    margin: 0;
+    margin-top: 12px;
+    padding: 0 24px 24px 24px;
+    .symbol {
+      display: inline-block;
+      width: 75px;
+    }
+    li {
+      line-height: 28px;
+    }
+  }
+  &.focus {
+    ul {
+      display: block;
+    }
+  }
+  h4 {
+    color: rgb(203, 203, 205);
+    margin-bottom: 12px;
+  }
+  .matching {
+    color: #21ce99;
   }
 }
 
 nav {
   position: absolute;
   right: 48px;
+  top: 0;
   ul {
     display: flex;
     line-height: 64px;
