@@ -2,7 +2,10 @@ import React from 'react';
 
 class Match extends React.Component {
   render () {
-    const { string, query } = this.props;
+    let { string, query } = this.props;
+    if (string.length > 50) {
+      string = string.slice(0, 47) + '...';
+    }
     let notMatching = string;
     let matching = '';
     if (string.toLowerCase().startsWith(query.toLowerCase())) {
