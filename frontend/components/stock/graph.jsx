@@ -10,6 +10,7 @@ class Graph extends React.Component {
   }
 
   showTooltipData(data) {
+    // console.log(data);
     const price = document.getElementById('price');
     const hover = document.getElementById('hover-price');
     if (price !== null && hover !== null) {
@@ -21,15 +22,53 @@ class Graph extends React.Component {
         hover.innerText = '';
       }
     }
+    data.viewBox = { x: -20, y: 0, width: 716, height: 400 };
+    return (
+      this.state.type === '1D' ? (
+        <div className="time">{this._formatTime(new Date(data.label))}</div>
+      ) : (
+        <div className="time">{this._formatDate(new Date(data.label))}</div>
+      )
+    );
+  }
+
+  _formatTime(time) {
+    let min = time.getUTCMinutes().toString();
+    if (min.length < 2) min = `0${min}`;
+    let hours = time.getUTCHours() - 4;
+    let peroid = 'AM';
+    if (hours > 12) {
+      hours -= 12;
+      peroid = 'PM';
+    }
+    return `${hours}:${min} ${peroid} ET`;
+  }
+
+  _formatDate(date) {
+    let [month, day, year] = date.toDateString().split(' ').slice(1);
+    if (day === undefined) return '';
+    if (day[0] === '0') day = day[1];
+    return `${month} ${day}, ${year}`.toUpperCase();
   }
 
   render () {
     const data = this.props.data;
     return (
       <div className="graph">
-        <LineChart width={676} height={196} data={data[this.state.type]}>
-          <XAxis dataKey="time" hide={true} />
+        <LineChart
+          width={676}
+          height={196}
+          data={data[this.state.type]}>
+          <XAxis
+            dataKey={this.state.type === '1D' ? 'time' : 'date'}
+            hide={true} />
           <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
+          <Tooltip
+            isAnimationActive={false}
+            content={this.showTooltipData}
+            position={{ y: -19 }}
+            offset={-35}
+            viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
           <Line
             type="monotone"
             dataKey="priceCents"
@@ -38,7 +77,6 @@ class Graph extends React.Component {
             dot={false}
             activeDot={{ r: 5 }}
             type="linear" />
-          <Tooltip content={this.showTooltipData} />
         </LineChart>
         <ul>
           {
