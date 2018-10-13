@@ -7,7 +7,7 @@ const SignUpPage = props => (
     <section className="sign-up-form">
       <h1>Make Your Money Move</h1>
       <p>
-        Robinhood lets you invest in companies you love, commission-free.
+        Legolas lets you invest in companies you love, commission-free.
       </p>
       <SignUpFormContainer />
     </section>

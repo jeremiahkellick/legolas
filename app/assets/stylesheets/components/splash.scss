@@ -1,0 +1,25 @@
+.splash {
+  align-items: center;
+  display: flex;
+  height: calc(100vh - 124px);
+  h1 {
+    font-size: 55px;
+    font-weight: 700;
+    margin-bottom: 30px;
+  }
+  p {
+    font-size: 18px;
+    margin-bottom: 30px;
+    max-width: 380px;
+  }
+  a.button {
+    color: white;
+    display: inline-block;
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0;
+    padding: 14px 16px;
+    text-decoration: none;
+    width: auto;
+  }
+}
