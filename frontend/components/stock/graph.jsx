@@ -68,6 +68,7 @@ class Graph extends React.Component {
             content={this.showTooltipData}
             position={{ y: -19 }}
             offset={-35}
+            cursor={{ stroke: 'rgb(140, 140, 142)' }}
             viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
           <Line
             type="monotone"
