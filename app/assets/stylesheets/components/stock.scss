@@ -11,6 +11,10 @@
   flex: 5;
 }
 
+.price {
+  font-weight: 400;
+}
+
 .graph {
   margin-top: 12px;
   margin-bottom: 44px;
@@ -53,4 +57,8 @@
 
 .line-chart {
   width: 100%;
+}
+
+#price.hide {
+  display: none;
 }

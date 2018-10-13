@@ -5,6 +5,21 @@ class Graph extends React.Component {
   constructor(props) {
     super(props);
     this.state = { type: '1D' };
+    this.showTooltipData = this.showTooltipData.bind(this);
+  }
+
+  showTooltipData(data) {
+    const price = document.getElementById('price');
+    const hover = document.getElementById('hover-price');
+    if (price !== null && hover !== null) {
+      if ( typeof data.payload[0] !== 'undefined') {
+        price.classList.add('hide');
+        hover.innerText = '$' + data.payload[0].value / 100;
+      } else {
+        price.classList.remove('hide');
+        hover.innerText = '';
+      }
+    }
   }
 
   render () {
@@ -22,7 +37,7 @@ class Graph extends React.Component {
             dot={false}
             activeDot={{ r: 5 }}
             type="linear" />
-          <Tooltip wrapperStyle={{ visibility: 'hidden' }} />
+          <Tooltip content={this.showTooltipData} />
         </LineChart>
         <ul>
           {

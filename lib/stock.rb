@@ -13,7 +13,7 @@ class Stock
     iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
     iexDay = HTTParty.get(iexDayURL).parsed_response
     return nil if iexDay == "Unknown symbol"
-    stock[:price_cents] = (iexDay.first["close"].to_f * 100).round
+    stock[:price_cents] = (iexDay.last["close"].to_f * 100).round
     fiveYearURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
     iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
     return nil if iexFiveYear == "Unknown symbol"
