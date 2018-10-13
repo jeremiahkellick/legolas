@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
+import { formatMoney } from '../../util/util';
 
 class Graph extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Graph extends React.Component {
     if (price !== null && hover !== null) {
       if ( typeof data.payload[0] !== 'undefined') {
         price.classList.add('hide');
-        hover.innerText = '$' + data.payload[0].value / 100;
+        hover.innerText = formatMoney(data.payload[0].value / 100);
       } else {
         price.classList.remove('hide');
         hover.innerText = '';
