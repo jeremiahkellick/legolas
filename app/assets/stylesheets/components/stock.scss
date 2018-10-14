@@ -17,10 +17,13 @@
 }
 
 .time {
-  color: rgb(140, 140, 142);
+  color: $light-placeholder;
   font-size: 13px;
   font-weight: 400;
   line-height: 19px;
+  .dark & {
+    color: $dark-placeholder;
+  }
 }
 
 .graph {
@@ -28,11 +31,14 @@
   margin-bottom: 44px;
   ul {
     display: flex;
-    border-bottom: 1px solid #f4f4f5;
+    border-bottom: 1px solid $light-dark-background;
     list-style: none;
     margin: 0;
     margin-top: 24px;
     padding: 0;
+    .dark & {
+      border-bottom: 1px solid $dark-dark-background;
+    }
     li {
       margin-right: 24px;
       &:last-child {
@@ -44,7 +50,7 @@
       border: none;
       border-bottom: 2px hidden;
       border-radius: 0;
-      color: rgb(23, 23, 24);
+      color: $light-foreground;
       font-size: 13px;
       font-weight: 500;
       outline: none;
@@ -60,6 +66,9 @@
         border-radius: 0;
       }
     }
+    .dark & button, .dark & .button {
+      color: $dark-foreground;
+    }
   }
 }
 
@@ -69,4 +78,18 @@
 
 #price.hide {
   display: none;
+}
+
+.recharts-tooltip-cursor {
+  stroke: $light-placeholder;
+  .dark & {
+    stroke: $dark-placeholder;
+  }
+}
+
+.recharts-active-dot {
+  stroke: $light-background;
+  .dark & {
+    stroke: $dark-background;
+  }
 }

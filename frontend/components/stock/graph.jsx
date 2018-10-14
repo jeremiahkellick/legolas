@@ -68,7 +68,7 @@ class Graph extends React.Component {
             content={this.showTooltipData}
             position={{ y: -19 }}
             offset={-35}
-            cursor={{ stroke: 'rgb(140, 140, 142)' }}
+            cursor={{ stroke: null }}
             viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
           <Line
             type="monotone"
@@ -76,7 +76,7 @@ class Graph extends React.Component {
             stroke="#21ce99"
             strokeWidth="2"
             dot={false}
-            activeDot={{ r: 5 }}
+            activeDot={{ r: 5, stroke: null }}
             type="linear" />
         </LineChart>
         <ul>

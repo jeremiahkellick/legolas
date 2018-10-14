@@ -1,3 +1,5 @@
+@import "colors";
+
 html, body {
   margin: 0;
   padding: 0;
@@ -9,8 +11,13 @@ body {
 }
 
 body.light {
-  background: white;
-  color: rgb(23, 23, 24);
+  background: $light-background;
+  color: $light-foreground;
+}
+
+body.dark {
+  background: $dark-background;
+  color: $dark-foreground;
 }
 
 .app {
@@ -39,10 +46,13 @@ h1 {
 }
 
 h2 {
-  border-bottom: 1px solid #f4f4f5;
+  border-bottom: 1px solid $light-dark-background;
   font-size: 26px;
   margin-bottom: 24px;
   padding-bottom: 16px;
+  .dark & {
+    border-bottom: 1px solid $dark-dark-background;
+  }
 }
 
 p {

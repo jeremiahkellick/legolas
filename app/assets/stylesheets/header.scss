@@ -22,8 +22,8 @@ header {
 }
 
 .search-bar {
-  background: white;
-  border: 1px solid #f4f4f5;
+  background: $light-background;
+  border: 1px solid $light-dark-background;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 13px;
@@ -32,24 +32,37 @@ header {
   transition: border-color .15s ease-out, box-shadow .15s ease-out;
   width: 478px;
   z-index: 5;
+  .dark & {
+    border: 1px solid $dark-dark-background;
+  }
   a {
-    color: rgb(23, 23, 24);
+    color: $light-foreground;
     text-decoration: none;
   }
+  .dark & a {
+    color: $dark-foreground;
+  }
   ::placeholder {
-    color: #cbcbcd;
+    color: $light-placeholder;
+    .dark & {
+      color: $dark-placeholder;
+    }
   }
   &::placeholder {
     transition: color .15s ease-out;
   }
   .search-icon {
-    fill: #cbcbcd;
+    fill: $light-placeholder;
     left: 24px;
     position: absolute;
     top: 9px;
     transition: fill .15s ease-out;
+    .dark & {
+      fill: $dark-placeholder;
+    }
   }
   input {
+    background: transparent;
     border: none;
     font-size: inherit;
     line-height: 34px;
@@ -58,13 +71,22 @@ header {
     width: 100%;
   }
   &:hover, &.focus {
-    border-color: white;
-    box-shadow: 0 0 4px 1px rgba(0,0,0,.01), 0 3px 24px rgba(48,51,51,.09);
-    &::placeholder {
-      color: rgb(23, 23, 24);
+    border-color: $light-background;
+    box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $light-shadow;
+    .dark & {
+      box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
+    }
+    & ::placeholder {
+      color: $light-foreground;
+      .dark & {
+        color: $dark-foreground;
+      }
     }
     .search-icon {
-      fill: rgb(23, 23, 24);
+      fill: $light-foreground;
+      .dark & {
+        fill: $dark-foreground;
+      }
     }
   }
   ul {
@@ -89,11 +111,21 @@ header {
     }
   }
   h4 {
-    color: rgb(203, 203, 205);
+    color: $light-placeholder;
     margin-bottom: 12px;
+    .dark & {
+      color: $dark-placeholder;
+    }
   }
   .matching {
     color: #21ce99;
+  }
+}
+
+.dark .search-bar {
+  background: $dark-background;
+  &:hover, &.focus {
+    border-color: $dark-background;
   }
 }
 
@@ -116,7 +148,7 @@ nav {
   }
   a, button, .button {
     border: none;
-    color: rgb(23, 23, 24);
+    color: $light-foreground;
     cursor: pointer;
     display: inline;
     font-size: 13px;
@@ -124,6 +156,12 @@ nav {
     margin: 0;
     padding: 0;
     text-decoration: none;
+    &:hover {
+      color: #21ce99;
+    }
+  }
+  .dark & a, .dark & button, .dark & .button {
+    color: $dark-foreground;
     &:hover {
       color: #21ce99;
     }

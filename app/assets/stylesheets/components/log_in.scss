@@ -1,5 +1,5 @@
 .log-in {
-  background: white;
+  background: $light-background;
   display: flex;
   height: 100vh;
   left: 0;
@@ -41,12 +41,21 @@
       border-color: #fafafa;
       padding: 15px 20px;
       &:hover, &:active {
-        background: white;
-        border-color: #cbcbcd;
+        background: $light-background;
+        border-color: $light-placeholder;
+        .dark & {
+          border-color: $dark-placeholder;
+        }
+      }
+      .dark &:hover, .dark &:active {
+        background: $dark-background;
       }
       &:focus {
-        background: white;
+        background: $light-background;
         border-color: #21ce99;
+      }
+      .dark &:focus {
+        background: $dark-background;
       }
     }
     &:last-of-type {
@@ -68,4 +77,8 @@
       margin: 0;
     }
   }
+}
+
+.dark .log-in {
+  background: $dark-background;
 }
