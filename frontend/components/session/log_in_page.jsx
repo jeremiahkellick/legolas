@@ -7,7 +7,7 @@ const LogInPage = props => {
     <div className="log-in">
       <div className="image"></div>
       <div className="form-half">
-        <section class="hoverable-inputs">
+        <section className="hoverable-inputs">
           <h1>Welcome to Legolas</h1>
           <LogInFormContainer />
         </section>

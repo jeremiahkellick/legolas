@@ -118,7 +118,6 @@
 .stock-sidebar {
   background: $light-background;
   box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $light-shadow;
-  padding-bottom: 24px;
   padding-top: 4px;
   position: fixed;
   top: 100px;
@@ -127,12 +126,18 @@
     background: $dark-background;
     box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
   }
-  & > div, & > h3, & > form {
+  & section, & > h3, & form {
     padding: 0 24px;
   }
-  & > div, & > form {
-    padding-bottom: 12px;
-    padding-top: 12px;
+  .buying-power {
+    border-top: 1px solid $light-border;
+    font-size: 13px;
+    line-height: 16px;
+    padding: 16px 0;
+    text-align: center;
+    .dark & {
+      border-color: $dark-border;
+    }
   }
   h3 {
     border-bottom: 1px solid $light-border;
@@ -182,6 +187,19 @@
           -webkit-appearance: none;
           margin: 0;
         }
+      }
+    }
+  }
+  input[type="submit"] {
+    color: $dark-background;
+    font-size: 13px;
+    font-weight: 500;
+    height: 48px;
+    padding: 0 32px;
+    &:hover, &:active {
+      background: $light-green;
+      .red & {
+        background: $light-red;
       }
     }
   }

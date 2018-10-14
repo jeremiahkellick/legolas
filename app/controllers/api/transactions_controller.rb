@@ -3,9 +3,7 @@ class Api::TransactionsController < ApplicationController
 
   def create
     @transaction = current_user.transactions.build(transaction_params)
-    if @transaction.save
-      render plain: "Transaction created successfully"
-    else
+    unless @transaction.save
       render json: @transaction.errors.full_messages, status: 422
     end
   end

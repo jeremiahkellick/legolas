@@ -14,7 +14,7 @@ import Splash from './splash';
 import LogInPage from './session/log_in_page';
 import SignUpPage from './user/sign_up_page';
 import StockPage from './stock/stock_page';
-import ErrorsCleanerContainer from './errors_cleaner/errors_cleaner_container';
+import ErrorsCleanerContainer from './error/errors_cleaner_container';
 
 const App = props => (
   <div className="app">

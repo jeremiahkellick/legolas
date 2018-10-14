@@ -19,7 +19,7 @@ class Transaction < ApplicationRecord
     return if user.nil?
     ensure_price
     unless @price.is_a?(Money)
-      errors[:base] << @price
+      errors[:base] << "Unknown symbol"
     end
   end
 
@@ -41,7 +41,7 @@ class Transaction < ApplicationRecord
     return if user.nil? || shares < 0
     ensure_price
     unless user.balance > @price * shares
-      errors[:base] << "You don't have enough buying power"
+      errors[:base] << "Not Enough Buying Power"
     end
   end
 
@@ -49,7 +49,7 @@ class Transaction < ApplicationRecord
     return if user.nil? || shares > 0
     ensure_price
     unless user.shares_of(symbol) >= shares.abs
-      errors[:base] << "You don't have that many shares"
+      errors[:base] << "Not Enough Shares"
     end
   end
 end

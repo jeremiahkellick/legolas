@@ -27,7 +27,9 @@ class Graph extends React.Component {
       this.state.type === '1D' ? (
         <div className="time">{this._formatTime(new Date(data.label))}</div>
       ) : (
-        <div className="time">{this._formatDate(new Date(data.label))}</div>
+        <div className="time">
+          {this._formatDate(new Date(data.label.split('-')))}
+        </div>
       )
     );
   }
@@ -88,7 +90,7 @@ class Graph extends React.Component {
         </LineChart>
         <ul>
           {
-            ['1D', '1M', '3M', '1Y', '5Y'].map(type =>
+            ['1D', '1W', '1M', '3M', '1Y', '5Y'].map(type =>
               <li key={type}>
                 <button
                   onClick={() => this.setState({ type })}

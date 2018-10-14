@@ -153,6 +153,30 @@ input[type="submit"], button, .button, a {
   font-weight: 400;
 }
 
+.error {
+  align-items: center;
+  display: flex;
+  font-size: 13px;
+  font-weight: 500;
+  margin-top: 10px;
+  svg {
+    margin-right: 8px;
+  }
+}
+
+.error-svg {
+  fill: $light-foreground;
+  .dark & {
+    fill: $dark-foreground;
+  }
+  text {
+    fill: $light-background;
+    .dark & {
+      fill: $dark-background;
+    }
+  }
+}
+
 @import "header";
 @import "components/log_in";
 @import "components/sign_up";

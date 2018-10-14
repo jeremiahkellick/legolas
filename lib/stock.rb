@@ -2,7 +2,7 @@ class Stock
   def self.price(symbol)
     url = "https://api.iextrading.com/1.0/stock/#{symbol.downcase}/price"
     res = HTTParty.get(url).parsed_response
-    return "Unknown stock symbol '#{symbol}'" unless res.is_a?(Numeric)
+    return nil unless res.is_a?(Numeric)
     Money.from_amount(res)
   end
 
@@ -31,6 +31,7 @@ class Stock
   def self.charts(iexDay, iexFiveYear)
     {
       "1D" => extract_times(iexDay, 5),
+      "1W" => extract_days(iexFiveYear, 1, 5, true),
       "1M" => extract_days(iexFiveYear, 1, 30),
       "3M" => extract_days(iexFiveYear, 1, 90),
       "1Y" => extract_days(iexFiveYear, 1, 365),
@@ -52,7 +53,7 @@ class Stock
     points
   end
 
-  def self.extract_days(day_series, divisor, days = nil)
+  def self.extract_days(day_series, divisor, days = nil, by_count = false)
     points = []
     first = true
     first_day = nil
@@ -63,9 +64,10 @@ class Stock
         first = false
       end
       day_count = first_day - date
+      day_count = i + 1 if by_count
       next unless day_count % divisor == 0
       points.unshift({
-        price_cents: (data["open"].to_f * 100).round,
+        price_cents: (data["close"].to_f * 100).round,
         date: date
       })
       break if days && day_count >= days
