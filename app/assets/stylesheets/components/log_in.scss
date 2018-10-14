@@ -6,6 +6,7 @@
   position: fixed;
   top: 0;
   width: 100vw;
+  z-index: 2;
   .form-half {
     align-items: center;
     display: flex;
@@ -37,30 +38,7 @@
       padding: 9px 0;
     }
     input {
-      background: $light-gray;
-      border-color: $light-gray;
       padding: 15px 20px;
-      .dark & {
-        background: $dark-gray;
-        border-color: $dark-gray;
-      }
-      &:hover, &:active {
-        background: $light-background;
-        border-color: $light-placeholder;
-        .dark & {
-          border-color: $dark-placeholder;
-        }
-      }
-      .dark &:hover, .dark &:active {
-        background: $dark-background;
-      }
-      &:focus {
-        background: $light-background;
-        border-color: #21ce99;
-        .dark & {
-          background: $dark-background;
-        }
-      }
     }
     &:last-of-type {
       margin-bottom: 60px;

@@ -47,12 +47,12 @@ h1 {
 }
 
 h2 {
-  border-bottom: 1px solid $light-dark-background;
+  border-bottom: 1px solid $light-border;
   font-size: 26px;
   margin-bottom: 24px;
   padding-bottom: 16px;
   .dark & {
-    border-bottom: 1px solid $dark-dark-background;
+    border-bottom: 1px solid $dark-border;
   }
 }
 
@@ -84,18 +84,59 @@ input, button, .button {
     outline: none;
     transition: border-color ease-in-out .15s;
     &:focus {
-      border-color: #21ce99;
+      border-color: $green;
+      .red & {
+        border-color: $red;
+      }
+    }
+    .hoverable-inputs & {
+      background: $light-dark-background;
+      border-color: $light-dark-background;
+      .dark & {
+        background: $dark-dark-background;
+        border-color: $dark-dark-background;
+      }
+      &:hover, &:active {
+        background: $light-background;
+        border-color: $light-placeholder;
+        .dark & {
+          border-color: $dark-placeholder;
+        }
+      }
+      .dark &:hover, .dark &:active {
+        background: $dark-background;
+      }
+      &:focus {
+        background: $light-background;
+        border-color: $green;
+        .dark & {
+          background: $dark-background;
+          border-color: $green;
+        }
+        .red & {
+          border-color: $red;
+        }
+      }
+      &::placeholder {
+        color: $light-placeholder;
+        .dark & {
+          color: $dark-placeholder;
+        }
+      }
     }
   }
 }
 
 input[type="submit"], button, .button {
-  background: #21ce99;
+  background: $green;
   border: none;
   color: white;
   margin: 24px 0;
   &:hover, &:active {
     background: #1aa278;
+  }
+  .red & {
+    background: $red;
   }
 }
 
@@ -108,7 +149,7 @@ input[type="submit"], button, .button, a {
 }
 
 .errors {
-  color: #f45531;
+  color: $red;
   font-weight: 400;
 }
 

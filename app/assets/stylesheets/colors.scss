@@ -1,13 +1,16 @@
-$light-foreground: rgb(23, 23, 24); // #171718
+$light-foreground: rgb(23, 23, 24);
 $dark-foreground: white;
 $light-background: white;
 $dark-background: rgb(27, 27, 29);
-$light-dark-background: rgb(244, 244, 245); // #f4f4f5
-$dark-dark-background: rgb(14, 13, 13);
-$light-placeholder: rgb(203, 203, 205); // #cbcbcd
+$light-border: rgb(244, 244, 245);
+$dark-border: rgb(14, 13, 13);
+$light-placeholder: rgb(203, 203, 205);
 $dark-placeholder: rgb(140, 140, 142);
 $small-shadow: rgba(0, 0, 0, 0.01);
 $light-shadow: rgba(48,51,51,.09);
 $dark-shadow: rgba(0, 0, 0, 0.6);
-$light-gray: rgb(250, 250, 250);
-$dark-gray: rgb(32, 32, 34);
+$light-dark-background: rgb(250, 250, 250);
+$dark-dark-background: rgb(23, 23, 24);
+
+$green: rgb(33, 206, 153);
+$red: rgb(244, 85, 49);

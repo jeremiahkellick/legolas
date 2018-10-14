@@ -28,7 +28,10 @@ header {
 }
 
 .logo:hover {
-  color: #21ce99;
+  color: $green;
+  .red & {
+    color: $red;
+  }
 }
 
 .navLogoStar {
@@ -37,7 +40,7 @@ header {
 
 .search-bar {
   background: $light-background;
-  border: 1px solid $light-dark-background;
+  border: 1px solid $light-border;
   border-radius: 4px;
   box-sizing: border-box;
   font-size: 13px;
@@ -47,7 +50,7 @@ header {
   width: 478px;
   z-index: 5;
   .dark & {
-    border: 1px solid $dark-dark-background;
+    border: 1px solid $dark-border;
   }
   a {
     color: $light-foreground;
@@ -62,7 +65,7 @@ header {
       color: $dark-placeholder;
     }
   }
-  &::placeholder {
+  & ::placeholder {
     transition: color .15s ease-out;
   }
   .search-icon {
@@ -131,7 +134,10 @@ header {
     }
   }
   .matching {
-    color: #21ce99;
+    color: $green;
+    .red & {
+      color: $red;
+    }
   }
 }
 
@@ -169,13 +175,19 @@ nav {
     padding: 0;
     text-decoration: none;
     &:hover {
-      color: #21ce99;
+      color: $green;
+      .red & {
+        color: $red;
+      }
     }
   }
   .dark & a, .dark & button, .dark & .button {
     color: $dark-foreground;
     &:hover {
-      color: #21ce99;
+      color: $green;
+      .red & {
+        color: $red;
+      }
     }
   }
 }

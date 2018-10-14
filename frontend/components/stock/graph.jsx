@@ -53,14 +53,21 @@ class Graph extends React.Component {
 
   render () {
     const data = this.props.data;
+    const type = this.state.type;
+    const currData = data[type];
+    if (currData[0].priceCents > currData[currData.length - 1].priceCents) {
+      document.body.classList.add('red');
+    } else {
+      document.body.classList.remove('red');
+    }
     return (
       <div className="graph">
         <LineChart
           width={676}
           height={196}
-          data={data[this.state.type]}>
+          data={data[type]}>
           <XAxis
-            dataKey={this.state.type === '1D' ? 'time' : 'date'}
+            dataKey={type === '1D' ? 'time' : 'date'}
             hide={true} />
           <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
           <Tooltip
@@ -73,10 +80,10 @@ class Graph extends React.Component {
           <Line
             type="monotone"
             dataKey="priceCents"
-            stroke="#21ce99"
+            stroke={null}
             strokeWidth="2"
             dot={false}
-            activeDot={{ r: 5, stroke: null }}
+            activeDot={{ r: 5, stroke: null, fill: null }}
             type="linear" />
         </LineChart>
         <ul>

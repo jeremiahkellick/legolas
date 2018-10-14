@@ -17,7 +17,7 @@ class StockForm extends React.Component {
     const shares = this.state.shares;
     const sharesNum = shares === '' ? 0 : parseInt(shares);
     return (
-      <form className="stock-form">
+      <form className="stock-form hoverable-inputs">
         <label>
           <div>Shares</div>
           <input
