@@ -1,14 +1,11 @@
 .stock-page {
+  align-items: flex-start;
   display: flex;
+  justify-content: space-between;
 }
 
 .stock-main {
-  flex: 12;
-  margin-right: 60px;
-}
-
-.stock-sidebar {
-  flex: 5;
+  width: 679px;
 }
 
 .price {
@@ -91,5 +88,81 @@
   stroke: $light-background;
   .dark & {
     stroke: $dark-background;
+  }
+}
+
+.sidebar-container {
+  width: 276px;
+}
+
+.stock-sidebar {
+  background: $light-background;
+  box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $light-shadow;
+  padding-bottom: 24px;
+  padding-top: 4px;
+  position: fixed;
+  top: 100px;
+  width: 276px;
+  .dark & {
+    background: $dark-background;
+    box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
+  }
+  & > div, & > h3, & > form {
+    padding: 0 24px;
+  }
+  & > div, & > form {
+    padding-bottom: 12px;
+    padding-top: 12px;
+  }
+  h3 {
+    border-bottom: 1px solid $light-dark-background;
+    font-size: 16px;
+    line-height: 47px;
+    .dark & {
+      border-bottom: 1px solid $dark-dark-background;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+}
+
+.stock-form {
+  label, .form-group {
+    -webkit-appearance: none;
+    align-items: center;
+    display: flex;
+    font-size: 13px;
+    height: 36px;
+    justify-content: space-between;
+    margin: 0;
+    padding: 6px 0;
+    &.bold {
+      font-weight: 500;
+    }
+    &.cost {
+      border-top: 1px solid $light-dark-background;
+      .dark & {
+        border-top-color: $dark-dark-background;
+      }
+    }
+    input {
+      font-size: 13px;
+      font-weight: 400;
+      height: 36px;
+      padding: 0 13px;
+      width: 82px;
+      &[type="number"] {
+        text-align: right;
+        &::-webkit-inner-spin-button,
+        &::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+      }
+    }
   }
 }

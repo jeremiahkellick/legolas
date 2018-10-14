@@ -1,7 +1,21 @@
 header {
+  background: $light-background;
   height: 50px;
+  left: 0;
   overflow: visible;
   padding-top: 14px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  .dark & {
+    background: $dark-background;
+  }
+}
+
+.search-container {
+  margin: auto;
+  width: 1024px;
 }
 
 .logo {
