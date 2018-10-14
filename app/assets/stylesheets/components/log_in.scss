@@ -37,9 +37,13 @@
       padding: 9px 0;
     }
     input {
-      background: #fafafa;
-      border-color: #fafafa;
+      background: $light-gray;
+      border-color: $light-gray;
       padding: 15px 20px;
+      .dark & {
+        background: $dark-gray;
+        border-color: $dark-gray;
+      }
       &:hover, &:active {
         background: $light-background;
         border-color: $light-placeholder;
@@ -53,9 +57,9 @@
       &:focus {
         background: $light-background;
         border-color: #21ce99;
-      }
-      .dark &:focus {
-        background: $dark-background;
+        .dark & {
+          background: $dark-background;
+        }
       }
     }
     &:last-of-type {

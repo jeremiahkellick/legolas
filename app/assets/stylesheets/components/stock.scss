@@ -46,6 +46,7 @@
       }
     }
     button, .button {
+      cursor: pointer;
       background: none;
       border: none;
       border-bottom: 2px hidden;
@@ -57,6 +58,9 @@
       margin: 0;
       padding: 0;
       padding-bottom: 12px;
+      .dark & {
+        color: $dark-foreground;
+      }
       &:hover, &:active {
         background: none;
         color: #21ce99;
@@ -65,9 +69,6 @@
         border-bottom: 2px solid #21ce99;
         border-radius: 0;
       }
-    }
-    .dark & button, .dark & .button {
-      color: $dark-foreground;
     }
   }
 }

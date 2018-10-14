@@ -77,6 +77,7 @@ input, button, .button {
   &[type="email"],
   &[type="password"],
   &[type="number"] {
+    background: transparent;
     border: 1px solid rgb(177, 191, 196);
     font-weight: 300;
     outline: none;
