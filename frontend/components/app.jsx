@@ -20,7 +20,7 @@ const App = props => (
   <div className="app">
     <header>
       <Logo />
-      <div class="search-container">
+      <div className="search-container">
         <RenderIfLoggedIn component={Search} />
       </div>
       <Nav />
