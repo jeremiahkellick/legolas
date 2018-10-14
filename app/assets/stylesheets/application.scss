@@ -98,6 +98,10 @@ input[type="submit"], button, .button {
   }
 }
 
+input[type="submit"], button, .button, a {
+  cursor: pointer;
+}
+
 ::placeholder {
   color: rgb(177, 191, 196);
 }
