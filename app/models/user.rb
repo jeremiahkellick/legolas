@@ -49,8 +49,9 @@ class User < ApplicationRecord
       .sum(:shares)
   end
 
-  def shares_hash
+  def shares_hash(at_time: Time.now)
     transactions
+      .where("time <= ?", at_time)
       .group(:symbol)
       .having("SUM(shares) > 0")
       .pluck(:symbol, Arel.sql("SUM(shares)"))
