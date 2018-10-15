@@ -71,7 +71,7 @@ class User < ApplicationRecord
     end
     user_charts.each do |key, value|
       if value.is_a?(Hash)
-        value[:points] = value[:points].values
+        value[:points] = value[:points].keys.sort.map { |k| value[:points][k] }
       end
     end
     user_charts
