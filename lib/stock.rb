@@ -47,7 +47,7 @@ class Stock
       next if close.nil?
       points << {
         price_cents: (close.to_f * 100).round,
-        time: parse_datetime(data)
+        time: parse_datetime(data).to_i * 1000
       }
     end
     points

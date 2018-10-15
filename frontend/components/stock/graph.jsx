@@ -23,15 +23,17 @@ class Graph extends React.Component {
       }
     }
     data.viewBox = { x: -20, y: 0, width: 716, height: 400 };
-    return (
-      this.state.type === '1D' ? (
-        <div className="time">{this._formatTime(new Date(data.label))}</div>
-      ) : (
-        <div className="time">
-          {this._formatDate(new Date(data.label.split('-')))}
-        </div>
-      )
-    );
+    if (data.label !== undefined) {
+      return (
+        this.state.type === '1D' ? (
+          <div className="time">{this._formatTime(new Date(data.label))}</div>
+        ) : (
+          <div className="time">
+            {this._formatDate(new Date(data.label.split('-')))}
+          </div>
+        )
+      );
+    }
   }
 
   _formatTime(time) {
@@ -62,6 +64,15 @@ class Graph extends React.Component {
     } else {
       document.body.classList.remove('red');
     }
+    let xDomain = ['dataMin', 1539722500000];
+    if (type === '1D') {
+      const max = new Date(data['1D'][0].time);
+      max.setUTCHours(19, 55, 0);
+      xDomain = ['dataMin', max.getTime()];
+    }
+    console.log(xDomain);
+    const dateTest = new Date();
+    dateTest.setUTCHours(dateTest.getUTCHours() + 1);
     return (
       <div className="graph">
         <LineChart
@@ -69,7 +80,9 @@ class Graph extends React.Component {
           height={196}
           data={data[type]}>
           <XAxis
+            type={type === '1D' ? 'number' : 'category'}
             dataKey={type === '1D' ? 'time' : 'date'}
+            domain={xDomain}
             hide={true} />
           <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
           <Tooltip
