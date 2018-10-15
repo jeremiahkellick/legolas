@@ -1,7 +1,7 @@
 import { RECEIVE_CURRENT_USER, LOG_OUT } from '../actions/session';
 import merge from 'lodash/merge';
 
-const _nullSession = { currentUser: { sharesOf: {} } };
+const _nullSession = { currentUser: { sharesOf: {}, charts: {} } };
 
 const upcaseSharesOfKeys = (user) => {
   if (user.sharesOf !== undefined) {

@@ -3,7 +3,9 @@ class Api::TransactionsController < ApplicationController
 
   def create
     @transaction = current_user.transactions.build(transaction_params)
-    unless @transaction.save
+    if @transaction.save
+      @shares_of = current_user.shares_of(@transaction.symbol)
+    else
       render json: @transaction.errors.full_messages, status: 422
     end
   end

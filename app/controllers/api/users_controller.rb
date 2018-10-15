@@ -1,4 +1,6 @@
 class Api::UsersController < ApplicationController
+  before_action :require_log_in, only: :charts
+
   def create
     @user = User.new(user_params)
     if @user.save

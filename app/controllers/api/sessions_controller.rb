@@ -22,4 +22,8 @@ class Api::SessionsController < ApplicationController
       )
     end
   end
+
+  def charts
+    render json: current_user.charts
+  end
 end

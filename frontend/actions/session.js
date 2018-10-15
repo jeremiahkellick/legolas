@@ -24,3 +24,8 @@ export const logOut = user => dispatch => (
     res => dispatch(receiveError(res.responseText))
   )
 );
+
+export const fetchCharts = () => dispatch => (
+  APIUtil.fetchCharts()
+    .then(charts => dispatch(receiveCurrentUser({ charts })))
+);

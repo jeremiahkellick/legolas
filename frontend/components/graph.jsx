@@ -1,6 +1,6 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
-import { formatMoney } from '../../util/util';
+import { formatMoney } from '../util/util';
 
 class Graph extends React.Component {
   constructor(props) {
@@ -10,7 +10,6 @@ class Graph extends React.Component {
   }
 
   showTooltipData(data) {
-    // console.log(data);
     const price = document.getElementById('price');
     const hover = document.getElementById('hover-price');
     if (price !== null && hover !== null) {
@@ -29,7 +28,7 @@ class Graph extends React.Component {
           <div className="time">{this._formatTime(new Date(data.label))}</div>
         ) : (
           <div className="time">
-            {this._formatDate(new Date(data.label.split('-')))}
+            {this._formatDate(new Date(data.label))}
           </div>
         )
       );
@@ -58,63 +57,60 @@ class Graph extends React.Component {
   render () {
     const data = this.props.data;
     const type = this.state.type;
-    const currData = data[type];
+    const currData = data[type].points;
     if (currData[0].priceCents > currData[currData.length - 1].priceCents) {
       document.body.classList.add('red');
     } else {
       document.body.classList.remove('red');
     }
-    let xDomain = ['dataMin', 1539722500000];
-    if (type === '1D') {
-      const max = new Date(data['1D'][0].time);
-      max.setUTCHours(19, 55, 0);
-      xDomain = ['dataMin', max.getTime()];
-    }
-    console.log(xDomain);
-    const dateTest = new Date();
-    dateTest.setUTCHours(dateTest.getUTCHours() + 1);
     return (
-      <div className="graph">
-        <LineChart
-          width={676}
-          height={196}
-          data={data[type]}>
-          <XAxis
-            type={type === '1D' ? 'number' : 'category'}
-            dataKey={type === '1D' ? 'time' : 'date'}
-            domain={xDomain}
-            hide={true} />
-          <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
-          <Tooltip
-            isAnimationActive={false}
-            content={this.showTooltipData}
-            position={{ y: -19 }}
-            offset={-35}
-            cursor={{ stroke: null }}
-            viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
-          <Line
-            type="monotone"
-            dataKey="priceCents"
-            stroke={null}
-            strokeWidth="2"
-            dot={false}
-            activeDot={{ r: 5, stroke: null, fill: null }}
-            type="linear" />
-        </LineChart>
-        <ul>
-          {
-            ['1D', '1W', '1M', '3M', '1Y', '5Y'].map(type =>
-              <li key={type}>
-                <button
-                  onClick={() => this.setState({ type })}
-                  className={this.state.type === type ? "active" : ""}>
+      <div>
+        <h1 className="price">
+          <span id="price">{formatMoney(data.priceCents / 100)}</span>
+          <span id="hover-price"></span>
+        </h1>
+        <div className="graph">
+          <LineChart
+            width={676}
+            height={196}
+            data={data[type].points}>
+            <XAxis
+              type="number"
+              dataKey="time"
+              domain={[data[type].min, data[type].max]}
+              hide={true} />
+            <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
+            <Tooltip
+              isAnimationActive={false}
+              content={this.showTooltipData}
+              position={{ y: -19 }}
+              offset={-35}
+              cursor={{ stroke: null }}
+              viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
+            <Line
+              type="monotone"
+              dataKey="priceCents"
+              stroke={null}
+              strokeWidth="2"
+              dot={false}
+              activeDot={{ r: 5, stroke: null, fill: null }}
+              type="linear" />
+          </LineChart>
+          <ul>
+            {
+              ['1D', '1W', '1M', '3M', '1Y', '5Y'].map(type =>
+                <li key={type}>
+                  <button
+                    onClick={() => this.setState({ type })}
+                    className={this.state.type === type ? "active" : ""}>
 
-                  {type}
-                </button>
-              </li>
-            )
-          }
-        </ul>
+                    {type}
+                  </button>
+                </li>
+              )
+            }
+          </ul>
+        </div>
       </div>
     );
   }

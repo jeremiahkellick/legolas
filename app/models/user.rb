@@ -57,4 +57,23 @@ class User < ApplicationRecord
       .pluck(:symbol, Arel.sql("SUM(shares)"))
       .to_h
   end
+
+  def charts
+    stock_charts = []
+    user_charts = {}
+    shares_hash.each do |symbol, shares|
+      charts = Stock.charts(symbol, key_by_time: true) do |time|
+        shares_of(symbol, at_time: time)
+      end
+      user_charts.deep_merge!(charts) do |key, a, b|
+        key == :price_cents ? a + b : b
+      end
+    end
+    user_charts.each do |key, value|
+      if value.is_a?(Hash)
+        value[:points] = value[:points].values
+      end
+    end
+    user_charts
+  end
 end

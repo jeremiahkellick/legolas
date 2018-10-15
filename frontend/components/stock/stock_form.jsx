@@ -2,6 +2,7 @@ import React from 'react';
 import { formatMoney } from '../../util/util';
 import { connect } from 'react-redux';
 import { createTransaction } from '../../actions/transaction';
+import { clearErrors } from '../../actions/error';
 import ErrorSVG from '../error/error_svg';
 
 class StockForm extends React.Component {
@@ -26,8 +27,9 @@ class StockForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     if (this.state.shares !== '' && parseInt(this.state.shares) > 0) {
+      const sign = this.state.tab === 'buy' ? 1 : -1;
       this.props.createTransaction({
-        shares: this.state.shares,
+        shares: this.state.shares * sign,
         symbol: this.props.stock.symbol
       }).then(() => this.setState({ shares: '' }));
     }
@@ -35,7 +37,8 @@ class StockForm extends React.Component {
 
   handleTab(e, name) {
     e.preventDefault();
-    this.setState({ tab: name });
+    this.props.clearErrors();
+    this.setState({ shares: '', tab: name });
   }
 
   render () {
@@ -79,7 +82,7 @@ class StockForm extends React.Component {
             <div>{formatMoney(stock.priceCents / 100 * sharesNum)}</div>
           </div>
           { errors.map(error =>
-            <div className="error">
+            <div className="error" key={error}>
               <ErrorSVG />
               <div>{error}</div>
             </div>
@@ -110,4 +113,6 @@ const mapStateToProps = state => ({
   errors: state.errors
 });
 
-export default connect(mapStateToProps, { createTransaction })(StockForm);
+const mapDispatchToProps = { createTransaction, clearErrors };
+
+export default connect(mapStateToProps, mapDispatchToProps)(StockForm);
