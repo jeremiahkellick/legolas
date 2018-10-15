@@ -7,9 +7,16 @@ import ErrorSVG from '../error/error_svg';
 class StockForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { shares: '' };
+    this.state = { shares: '', tab: 'buy' };
     this.updateShares = this.updateShares.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleTab = this.handleTab.bind(this);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.stock.symbol !== this.props.stock.symbol) {
+      this.setState({ shares: '', tab: 'buy' });
+    }
   }
 
   updateShares(e) {
@@ -26,12 +33,31 @@ class StockForm extends React.Component {
     }
   }
 
+  handleTab(e, name) {
+    e.preventDefault();
+    this.setState({ tab: name });
+  }
+
   render () {
     const { stock, currentUser, errors } = this.props;
     const shares = this.state.shares;
     const sharesNum = shares === '' ? 0 : parseInt(shares);
     return (
       <div>
+        <h3>
+          <a
+            className={this.state.tab === 'buy' ? 'active' : ''}
+            onClick={(e) => this.handleTab(e, 'buy')}>
+
+            Buy {stock.symbol}
+          </a>
+          <a
+            className={this.state.tab === 'sell' ? 'active' : ''}
+            onClick={(e) => this.handleTab(e, 'sell')}>
+
+            Sell {stock.symbol}
+          </a>
+        </h3>
         <form
           onSubmit={this.handleSubmit}
           className="stock-form hoverable-inputs">
@@ -53,16 +79,26 @@ class StockForm extends React.Component {
             <div>{formatMoney(stock.priceCents / 100 * sharesNum)}</div>
           </div>
           { errors.map(error =>
-            <div class="error">
+            <div className="error">
               <ErrorSVG />
               <div>{error}</div>
             </div>
           ) }
           <input type="submit" value="Submit Order" />
         </form>
-        <section className="buying-power">
-          {formatMoney(currentUser.balanceCents / 100)}&nbsp;
-          Buying Power Available
+        <section className="user-info">
+          {
+            this.state.tab === 'buy' ? (
+              <div>
+                {formatMoney(currentUser.balanceCents / 100)}&nbsp;
+                Buying Power Available
+              </div>
+            ) : (
+              <div>
+                {currentUser.sharesOf[stock.symbol]} Shares Available
+              </div>
+            )
+          }
         </section>
       </div>
     );

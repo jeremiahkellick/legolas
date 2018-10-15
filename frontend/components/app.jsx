@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { Route, Link, Switch, Redirect } from 'react-router-dom';
 import {
   AuthRoute,
+  ProtectedRoute,
   RenderIfLoggedIn,
   RenderIfLoggedOut
 } from '../util/session_util';
@@ -36,7 +37,7 @@ const App = props => (
         } />
         <AuthRoute exact path="/log_in" component={LogInPage} />
         <AuthRoute exact path="/sign_up" component={SignUpPage} />
-        <Route exact path="/stocks/:symbol" component={StockPage} />
+        <ProtectedRoute exact path="/stocks/:symbol" component={StockPage} />
         <Route path="/" render={() => <Redirect to="/" />} />
       </Switch>
     </main>

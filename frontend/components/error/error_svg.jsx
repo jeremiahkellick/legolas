@@ -2,7 +2,7 @@ import React from 'react';
 
 const ErrorSVG = props => (
   <svg
-    class="error-svg"
+    className="error-svg"
     width="16"
     height="16"
     viewBox="0 0 16 16">

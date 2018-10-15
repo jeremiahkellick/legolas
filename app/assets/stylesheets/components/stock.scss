@@ -126,10 +126,13 @@
     background: $dark-background;
     box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
   }
-  & section, & > h3, & form {
+  & section, & h3, & form {
     padding: 0 24px;
   }
-  .buying-power {
+  & form {
+    margin-top: 12px;
+  }
+  .user-info {
     border-top: 1px solid $light-border;
     font-size: 13px;
     line-height: 16px;
@@ -141,8 +144,9 @@
   }
   h3 {
     border-bottom: 1px solid $light-border;
+    display: flex;
     font-size: 16px;
-    line-height: 47px;
+    justify-content: space-between;
     .dark & {
       border-bottom: 1px solid $dark-border;
       &:last-child {
@@ -151,6 +155,25 @@
     }
     &:last-child {
       border-bottom: none;
+    }
+    a {
+      border-bottom: 3px solid transparent;
+      display: block;
+      line-height: 43px;
+      &.active {
+        color: $green;
+        border-bottom: 3px solid $green;
+        .red & {
+          color: $red;
+          border-color: $red;
+        }
+      }
+      &:hover {
+        color: $green;
+        .red & {
+          color: $red;
+        }
+      }
     }
   }
 }

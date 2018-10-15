@@ -27,16 +27,16 @@ const Protected = ({
   )} />
 );
 
-const LoggedIn = ({ loggedIn, component: Component }) => (
-  loggedIn ? <Component /> : ""
+const LoggedIn = ({ loggedIn, component: Component, render }) => (
+  loggedIn ? (Component ? <Component /> : render()) : ""
 );
 
-const LoggedOut = ({ loggedIn, component: Component }) => (
-  loggedIn ? "" : <Component />
+const LoggedOut = ({ loggedIn, component: Component, render }) => (
+  loggedIn ? "" : (Component ? <Component /> : render())
 );
 
 const mapStateToProps = state => ({
-  loggedIn: Boolean(state.session.currentUser)
+  loggedIn: Boolean(state.session.currentUser.id)
 });
 
 export const AuthRoute = withRouter(connect(mapStateToProps)(Auth));

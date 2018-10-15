@@ -1,4 +1,5 @@
 import * as APIUtil from '../util/stock_api_util';
+import { receiveCurrentUser } from './session';
 
 export const RECEIVE_STOCK = 'RECEIVE_STOCK';
 export const STOCK_NOT_FOUND = 'STOCK_NOT_FOUND';
@@ -8,7 +9,10 @@ export const stockNotFound = symbol => ({ type: STOCK_NOT_FOUND, symbol });
 
 export const fetchStock = symbol => dispatch => (
   APIUtil.fetchStock(symbol).then(
-    stock => dispatch(receiveStock(stock)),
+    res => {
+      dispatch(receiveStock(res.stock));
+      dispatch(receiveCurrentUser(res.currentUser));
+    },
     () => dispatch(stockNotFound(symbol))
   )
 );
