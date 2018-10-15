@@ -9,11 +9,15 @@ class Dashboard extends React.Component {
   }
 
   render () {
-    if (this.props.charts["1D"] === undefined) return '';
+    const charts = this.props.charts;
+    let graph = '';
+    if (charts['1D'] !== undefined && charts['1D'].points.length > 0) {
+      graph = <Graph data={this.props.charts} />;
+    }
     return (
       <div>
         <h1>Welcome to Legolas</h1>
-        <Graph data={this.props.charts} />
+        {graph}
       </div>
     );
   }

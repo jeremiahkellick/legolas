@@ -170,6 +170,6 @@ class Stock
   end
 
   def self.parse_date(date)
-    Time.new(*date.split("-").map(&:to_i))
+    Time.new(*date.split("-").map(&:to_i), 16, 0, 0, "-04:00")
   end
 end
