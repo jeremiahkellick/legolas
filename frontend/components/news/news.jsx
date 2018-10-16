@@ -4,7 +4,22 @@ import { fetchNews, fetchMarketNews } from '../../actions/news';
 import Article from './article';
 
 class News extends React.Component {
+  constructor(props) {
+    super(props);
+    this.fetchNews = this.fetchNews.bind(this);
+  }
+
   componentDidMount() {
+    this.fetchNews();
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.symbol !== this.props.symbol) {
+      this.fetchNews();
+    }
+  }
+
+  fetchNews() {
     if (this.props.symbol === 'market') {
       this.props.fetchMarketNews();
     } else {

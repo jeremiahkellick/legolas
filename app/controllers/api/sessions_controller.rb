@@ -1,4 +1,6 @@
 class Api::SessionsController < ApplicationController
+  before_action :require_log_in, only: :charts
+
   def create
     @user = User.find_by_credentials(
       params[:user][:email],
@@ -24,6 +26,7 @@ class Api::SessionsController < ApplicationController
   end
 
   def charts
-    render json: current_user.charts
+    @charts = current_user.charts
+    @shares_of = current_user.shares_hash
   end
 end

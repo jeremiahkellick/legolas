@@ -47,3 +47,40 @@
     }
   }
 }
+
+.stocks a {
+  align-items: center;
+  color: $light-foreground;
+  display: flex;
+  height: 60px;
+  justify-content: space-between;
+  margin: 0 -24px;
+  padding: 0 24px;
+  text-decoration: none;
+  .dark & {
+    color: $dark-foreground;
+  }
+  &:hover {
+    background: $light-dark-background;
+    .dark & {
+      background: $dark-dark-background;
+    }
+  }
+  h4 {
+    font-size: 13px;
+    font-weight: 500;
+    width: 72px;
+  }
+  .shares {
+    font-size: 13px;
+  }
+  .test {
+    background: deeppink;
+    height: 16px;
+    width: 33.33px;
+  }
+  .price-preview {
+    text-align: right;
+    width: 72px;
+  }
+}

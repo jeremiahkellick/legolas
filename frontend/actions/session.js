@@ -3,10 +3,17 @@ import { receiveError } from './error';
 
 export const RECEIVE_CURRENT_USER = 'RECEIVE_CURRENT_USER';
 export const LOG_OUT = 'LOG_OUT';
+export const RECEIVE_CHARTS = 'RECEIVE_CHARTS';
 
 export const receiveCurrentUser = user => ({
   type: RECEIVE_CURRENT_USER,
   currentUser: user
+});
+
+export const receiveCharts = ({ currentUser, stocks }) => ({
+  type: RECEIVE_CHARTS,
+  currentUser: currentUser,
+  stocks: stocks
 });
 
 export const frontendLogOut = () => ({ type: LOG_OUT });
@@ -27,5 +34,5 @@ export const logOut = user => dispatch => (
 
 export const fetchCharts = () => dispatch => (
   APIUtil.fetchCharts()
-    .then(charts => dispatch(receiveCurrentUser({ charts })))
+    .then(res => dispatch(receiveCharts(res)))
 );

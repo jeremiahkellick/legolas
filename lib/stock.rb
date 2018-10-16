@@ -19,8 +19,7 @@ class Stock
     stock
   end
 
-  def self.charts(symbol, key_by_time: false, &price_multiplier)
-    price_multiplier ||= Proc.new { 1 }
+  def self.charts(symbol, key_by_time: false, clear_zeroes: true)
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
@@ -33,7 +32,7 @@ class Stock
       iexDay,
       iexFiveYear,
       key_by_time: key_by_time,
-      &price_multiplier
+      clear_zeroes: clear_zeroes
     )
   end
 
@@ -43,17 +42,16 @@ class Stock
     iexDay,
     iexFiveYear,
     key_by_time: false,
-    &price_multiplier
+    clear_zeroes: true
   )
-    price_multiplier ||= Proc.new { 1 }
-    base_price = (iexDay.last["close"].to_f * 100).round
+    close = iexDay.last["close"] || iexDay.last["marketClose"]
     {
-      price_cents: base_price * price_multiplier.call(Time.now),
+      price_cents: (close.to_f * 100).round,
       "1D" => extract_times(
         iexDay,
         divisor: 5,
         key_by_time: key_by_time,
-        &price_multiplier
+        clear_zeroes: clear_zeroes
       ),
       "1W" => extract_days(
         iexFiveYear,
@@ -61,35 +59,35 @@ class Stock
         5,
         by_count: true,
         key_by_time: key_by_time,
-        &price_multiplier
+        clear_zeroes: clear_zeroes
       ),
       "1M" => extract_days(
         iexFiveYear,
         1,
         30,
         key_by_time: key_by_time,
-        &price_multiplier
+        clear_zeroes: clear_zeroes
       ),
       "3M" => extract_days(
         iexFiveYear,
         1,
         90,
         key_by_time: key_by_time,
-        &price_multiplier
+        clear_zeroes: clear_zeroes
       ),
       "1Y" => extract_days(
         iexFiveYear,
         1,
         365,
         key_by_time: key_by_time,
-        &price_multiplier
+        clear_zeroes: clear_zeroes
       ),
       "5Y" => extract_days(
         iexFiveYear,
         7,
         1_826,
         key_by_time: key_by_time,
-        &price_multiplier
+        clear_zeroes: clear_zeroes
       )
     }
   end
@@ -98,22 +96,21 @@ class Stock
     time_series,
     divisor: 1,
     key_by_time: false,
-    &price_multiplier
+    clear_zeroes: true
   )
-    price_multiplier ||= Proc.new { 1 }
     points = []
     points = {} if key_by_time
     time_series.each_with_index do |data, i|
       next unless i % divisor == 0
       close = data["close"] || data["marketClose"] || nil
-      next if close.nil?
+      next if clear_zeroes && close.nil?
       time = parse_datetime(data).to_i * 1000
-      base_price = (close.to_f * 100).round
-      price = base_price * price_multiplier.call(Time.at(time / 1000))
+      price = (close.to_f * 100).round
+      next if clear_zeroes && price.zero?
       if key_by_time
-        points[time] = { price_cents: price, time: time } unless price.zero?
+        points[time] = { price_cents: price, time: time }
       else
-        points << { price_cents: price, time: time } unless price.zero?
+        points << { price_cents: price, time: time }
       end
     end
     d = Time.now.getlocal("-04:00")
@@ -129,9 +126,8 @@ class Stock
     days,
     by_count: false,
     key_by_time: false,
-    &price_multiplier
+    clear_zeroes: true
   )
-    price_multiplier ||= Proc.new { 1 }
     points = []
     points = {} if key_by_time
     first = true
@@ -147,12 +143,13 @@ class Stock
       day_count = i + 1 if by_count
       next unless day_count % divisor == 0
       time = date.to_i * 1000
-      base_price = (data["close"].to_f * 100).round
-      price = base_price * price_multiplier.call(Time.at(time / 1000))
-      if key_by_time
-        points[time] = { price_cents: price, time: time } unless price.zero?
-      else
-        points.unshift({ price_cents: price, time: time }) unless price.zero?
+      price = (data["close"].to_f * 100).round
+      unless clear_zeroes && price == 0
+        if key_by_time
+          points[time] = { price_cents: price, time: time }
+        else
+          points.unshift({ price_cents: price, time: time })
+        end
       end
       if day_count >= days
         min = date

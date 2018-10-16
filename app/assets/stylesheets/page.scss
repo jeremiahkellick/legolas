@@ -22,6 +22,11 @@
     background: $dark-background;
     box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
   }
+  & ul {
+    list-style: none;
+    margin: 0;
+    padding: 0 24px;
+  }
   & section, & h3, & form {
     padding: 0 24px;
   }

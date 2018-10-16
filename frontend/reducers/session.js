@@ -1,4 +1,8 @@
-import { RECEIVE_CURRENT_USER, LOG_OUT } from '../actions/session';
+import {
+  RECEIVE_CURRENT_USER,
+  LOG_OUT,
+  RECEIVE_CHARTS
+} from '../actions/session';
 import merge from 'lodash/merge';
 
 const _nullSession = { currentUser: { sharesOf: {}, charts: {} } };
@@ -18,6 +22,9 @@ const upcaseSharesOfKeys = (user) => {
 const sessionReducer = (state = _nullSession, action) => {
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
+      upcaseSharesOfKeys(action.currentUser);
+      return merge({}, state, { currentUser: action.currentUser });
+    case RECEIVE_CHARTS:
       upcaseSharesOfKeys(action.currentUser);
       return merge({}, state, { currentUser: action.currentUser });
     case LOG_OUT:

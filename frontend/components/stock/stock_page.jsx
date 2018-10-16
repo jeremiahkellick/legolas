@@ -11,15 +11,17 @@ class StockPage extends React.Component {
   }
 
   componentDidMount() {
-    if (this.props.stock === undefined) {
+    const stock = this.props.stock;
+    if (stock === undefined || stock.companyName === undefined) {
       this.props.fetchStock(this.symbol());
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.stock === null) {
+    const stock = this.props.stock;
+    if (stock === null) {
       this.props.history.push("/");
-    } else if (this.props.stock === undefined) {
+    } else if (stock === undefined || stock.companyName === undefined) {
       prevProps.fetchStock(this.symbol());
     }
   }

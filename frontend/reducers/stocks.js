@@ -1,5 +1,14 @@
 import { RECEIVE_STOCK, STOCK_NOT_FOUND } from '../actions/stock';
+import { RECEIVE_CHARTS } from '../actions/session';
 import merge from 'lodash/merge';
+
+const upcaseSymbols = stocks => {
+  const upcasedStocks = {};
+  Object.keys(stocks).forEach(key => {
+    upcasedStocks[key.toUpperCase()] = stocks[key];
+  });
+  return upcasedStocks;
+};
 
 const stocksReducer = (state = {}, action) => {
   switch (action.type) {
@@ -7,6 +16,8 @@ const stocksReducer = (state = {}, action) => {
       return merge({}, state, { [action.stock.symbol]: action.stock });
     case STOCK_NOT_FOUND:
       return merge({}, state, { [action.symbol]: null });
+    case RECEIVE_CHARTS:
+      return merge({}, state, upcaseSymbols(action.stocks));
     default:
       return state;
   }
