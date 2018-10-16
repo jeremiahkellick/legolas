@@ -13,7 +13,10 @@
       color: $dark-foreground;
     }
     &:hover {
-      background: rgb(23, 23, 24);
+      background: $light-dark-background;
+      .dark & {
+        background: $dark-dark-background;
+      }
     }
   }
   .image {

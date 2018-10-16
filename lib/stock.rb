@@ -118,7 +118,7 @@ class Stock
     end
     d = Date.today
     min = Time.new(d.year, d.month, d.day, 9, 30, 0, "-04:00")
-    max = Time.new(d.year, d.month, d.day, 3, 55, 0, "-04:00")
+    max = Time.new(d.year, d.month, d.day, 15, 55, 0, "-04:00")
     { min: min.to_i * 1000, max: max.to_i * 1000, points: points }
   end
 
