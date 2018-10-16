@@ -117,7 +117,7 @@ class Stock
       end
     end
     d = Time.now.getlocal("-04:00")
-    d = d.yesterday if [d.hour, d.min] < [9, 30]
+    d = d.yesterday if ([d.hour, d.min] <=> [9, 30]) == -1
     min = Time.new(d.year, d.month, d.day, 9, 30, 0, "-04:00")
     max = Time.new(d.year, d.month, d.day, 15, 55, 0, "-04:00")
     { min: min.to_i * 1000, max: max.to_i * 1000, points: points }

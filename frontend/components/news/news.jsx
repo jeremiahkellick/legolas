@@ -21,7 +21,7 @@ class News extends React.Component {
             <Article key={article.url} article={article} />
           ) }
         </ul>
-        <p class="credit">
+        <p className="credit">
           <a href="https://newsapi.org">Powered by News API</a>
         </p>
       </div>
