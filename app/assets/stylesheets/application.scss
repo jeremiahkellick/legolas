@@ -177,8 +177,21 @@ input[type="submit"], button, .button, a {
   }
 }
 
+.credit a {
+  color: $light-foreground;
+  font-size: 13px;
+  font-weight: 300px;
+  text-decoration: none;
+  .dark & {
+    color: $dark-foreground;
+  }
+}
+
 @import "header";
+@import "page";
 @import "components/log_in";
 @import "components/sign_up";
 @import "components/stock";
 @import "components/splash";
+@import "components/graph";
+@import "components/news";

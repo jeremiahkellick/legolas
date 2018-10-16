@@ -1,0 +1,82 @@
+.container {
+  align-items: flex-start;
+  display: flex;
+  justify-content: space-between;
+}
+
+.main {
+  section {
+    margin-bottom: 60px;
+  }
+  width: 679px;
+}
+
+.sidebar {
+  background: $light-background;
+  box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $light-shadow;
+  padding-top: 4px;
+  position: fixed;
+  top: 100px;
+  width: 276px;
+  .dark & {
+    background: $dark-background;
+    box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
+  }
+  & section, & h3, & form {
+    padding: 0 24px;
+  }
+  & form {
+    margin-top: 12px;
+  }
+  .user-info {
+    border-top: 1px solid $light-border;
+    font-size: 13px;
+    line-height: 16px;
+    padding: 16px 0;
+    text-align: center;
+    .dark & {
+      border-color: $dark-border;
+    }
+  }
+  h3 {
+    border-bottom: 1px solid $light-border;
+    display: flex;
+    font-size: 16px;
+    justify-content: space-between;
+    .dark & {
+      border-bottom: 1px solid $dark-border;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    &:last-child {
+      border-bottom: none;
+    }
+    div {
+      line-height: 47px;
+    }
+    a {
+      border-bottom: 3px solid transparent;
+      display: block;
+      line-height: 44px;
+      &.active {
+        color: $green;
+        border-bottom: 3px solid $green;
+        .red & {
+          color: $red;
+          border-color: $red;
+        }
+      }
+      &:hover {
+        color: $green;
+        .red & {
+          color: $red;
+        }
+      }
+    }
+  }
+}
+
+.sidebar-container {
+  width: 276px;
+}

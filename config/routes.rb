@@ -7,5 +7,6 @@ Rails.application.routes.draw do
     get '/charts', to: 'sessions#charts'
     resources :transactions, only: [:create]
     get '/stocks/:symbol', to: 'stocks#show'
+    resources :news, only: :index
   end
 end

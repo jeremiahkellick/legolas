@@ -3,7 +3,7 @@ import StockForm from './stock_form';
 
 const StockSidebar = ({ stock }) => (
   <div className="sidebar-container">
-    <div className="stock-sidebar">
+    <div className="sidebar">
       <StockForm stock={stock} />
     </div>
   </div>

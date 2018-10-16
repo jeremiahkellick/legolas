@@ -13,7 +13,7 @@ const SignUpPage = props => {
         </p>
         <SignUpFormContainer />
       </section>
-      <section className="sidebar">
+      <section className="sign-up-sidebar">
         <img className="time-image" src={timeImage} />
         <p className="slide-title">
           Stay on top of your portfolio.<br /> Anytime. Anywhere.
