@@ -3,7 +3,8 @@ import Graph from './graph';
 import { connect } from 'react-redux';
 import { fetchCharts } from '../actions/session';
 import News from './news/news';
-import StockIndex from './stock/stock_index';
+import OwnedStocks from './stock/owned_stocks';
+import WatchedStocks from './stock/watched_stocks';
 
 class Dashboard extends React.Component {
   componentDidMount() {
@@ -28,8 +29,12 @@ class Dashboard extends React.Component {
         </div>
         <div className="sidebar-container">
           <div className="sidebar">
-            <h3><div>Stocks</div></h3>
-            <StockIndex />
+            <div className="sidebar-card">
+              <h3><div>Stocks</div></h3>
+              <OwnedStocks />
+              <h3><div>Watchlist</div></h3>
+              <WatchedStocks />
+            </div>
           </div>
         </div>
       </div>

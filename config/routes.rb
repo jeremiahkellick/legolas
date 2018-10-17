@@ -8,5 +8,7 @@ Rails.application.routes.draw do
     resources :transactions, only: [:create]
     get '/stocks/:symbol', to: 'stocks#show'
     resources :news, only: :index
+    resources :watches, only: :create
+    delete '/watches/:symbol', to: 'watches#destroy'
   end
 end

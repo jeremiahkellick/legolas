@@ -9,7 +9,7 @@ class Stock
   def self.info(symbol)
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
-    stock = { symbol: symbol }
+    stock = {}
     stock.merge!(charts(symbol))
     iexCompanyURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/company"
     iexCompany = HTTParty.get(iexCompanyURL).parsed_response
@@ -22,18 +22,19 @@ class Stock
   def self.charts(symbol, key_by_time: false, clear_zeroes: true)
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
+    stock = { symbol: symbol }
     iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
     iexDay = HTTParty.get(iexDayURL).parsed_response
     return nil if iexDay == "Unknown symbol"
     fiveYearURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
     iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
     return nil if iexFiveYear == "Unknown symbol"
-    charts_from_iex_data(
+    stock.merge!(charts_from_iex_data(
       iexDay,
       iexFiveYear,
       key_by_time: key_by_time,
       clear_zeroes: clear_zeroes
-    )
+    ))
   end
 
   private

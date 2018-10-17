@@ -12,12 +12,17 @@
 }
 
 .sidebar {
-  background: $light-background;
-  box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $light-shadow;
-  padding-top: 4px;
   position: fixed;
   top: 100px;
   width: 276px;
+}
+
+.sidebar-card {
+  background: $light-background;
+  box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $light-shadow;
+  max-height: calc(100vh - 140px);
+  overflow: scroll;
+  padding-top: 4px;
   .dark & {
     background: $dark-background;
     box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
@@ -26,6 +31,16 @@
     list-style: none;
     margin: 0;
     padding: 0 24px;
+    border-bottom: 1px solid $light-border;
+    .dark & {
+      border-bottom: 1px solid $dark-border;
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+    &:last-child {
+      border-bottom: none;
+    }
   }
   & section, & h3, & form {
     padding: 0 24px;
@@ -84,4 +99,29 @@
 
 .sidebar-container {
   width: 276px;
+}
+
+.sidebar-buttons {
+  margin: 24px 24px 0 24px;
+  button {
+    background: transparent;
+    border: 1px solid $green;
+    color: $green;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 46px;
+    padding: 0;
+    .red & {
+      border-color: $red;
+      color: $red;
+    }
+    &:hover, &:active {
+      border-color: $light-green;
+      color: $light-green;
+      .red & {
+        border-color: $light-red;
+        color: $light-red;
+      }
+    }
+  }
 }

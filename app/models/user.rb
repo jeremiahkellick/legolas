@@ -17,6 +17,7 @@ class User < ApplicationRecord
   after_initialize :ensure_session_token
 
   has_many :transactions
+  has_many :watches
 
   def password=(password)
     @password = password
@@ -40,6 +41,10 @@ class User < ApplicationRecord
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
     user && user.is_password?(password) ? user : nil
+  end
+
+  def watched_stocks
+    watches.map(&:symbol)
   end
 
   def shares_of(symbol, at_time: Time.now)
@@ -69,6 +74,7 @@ class User < ApplicationRecord
         shares_of(symbol, at_time: time)
       end
       user_charts = stock_charts_hash.deep_dup
+      user_charts.delete(:symbol)
       clear_zeroes(stock_charts_hash)
       charts[:stocks][symbol] = charts_hashes_to_arrays(stock_charts_hash)
       apply_multiplier_to_charts(symbol, user_charts, shares)
