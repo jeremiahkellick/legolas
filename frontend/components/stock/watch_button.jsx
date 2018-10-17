@@ -16,7 +16,7 @@ class WatchButton extends React.Component {
     const action = this.props.watched ? "Remove from" : "Add to";
     return (
       <button onClick={this.handleClick.bind(this)} className="watch-button">
-        {action} Watchlsit
+        {action} Watchlist
       </button>
     );
   }

@@ -31,7 +31,7 @@ class StockPage extends React.Component {
   }
 
   render () {
-    if (!this.props.stock.companyName) return '';
+    if (!this.props.stock || !this.props.stock.companyName) return '';
     return (
       <div className="container">
         <StockMain stock={this.props.stock} />

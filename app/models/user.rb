@@ -63,6 +63,8 @@ class User < ApplicationRecord
   end
 
   def charts
+    $shares_of_time = 0
+    $api_calls_time = 0
     @times_to_remove = []
     charts = { stocks: {}, user_charts: {} }
     shares_hash.each do |symbol, shares|
@@ -88,6 +90,8 @@ class User < ApplicationRecord
         value[:points] = value[:points].keys.sort.map { |k| value[:points][k] }
       end
     end
+    puts "Shares of time: #{$shares_of_time}"
+    puts "API calls time: #{$api_calls_time}"
     charts
   end
 
@@ -127,7 +131,9 @@ class User < ApplicationRecord
       if value.is_a?(Hash)
         value[:points].each do |time_num, point|
           time = Time.at(time_num / 1000)
+          before = Time.now
           shares = shares_of(symbol, at_time: time)
+          $shares_of_time += Time.now - before
           point[:price_cents] *= shares
           if point[:price_cents] == 0
             value[:points].delete(time_num)

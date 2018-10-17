@@ -24,10 +24,14 @@ class Stock
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
     iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
+    before = Time.now
     iexDay = HTTParty.get(iexDayURL).parsed_response
+    $api_calls_time += Time.now - before
     return nil if iexDay == "Unknown symbol"
     fiveYearURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
+    before = Time.now
     iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
+    $api_calls_time += Time.now - before
     return nil if iexFiveYear == "Unknown symbol"
     stock.merge!(charts_from_iex_data(
       iexDay,
