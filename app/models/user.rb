@@ -44,7 +44,7 @@ class User < ApplicationRecord
   end
 
   def watched_stocks
-    watches.map(&:symbol) - shares_hash.keys
+    watches.map(&:symbol)
   end
 
   def shares_of(symbol, at_time: Time.now)

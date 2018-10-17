@@ -5,7 +5,7 @@ import { fetchStock } from '../../actions/stock';
 
 class WatchedStocks extends React.Component {
   componentDidMount() {
-    this.props.watchedStocks.forEach(symbol => this.props.fetchStock(symbol));
+    this.watchedAndNotOwned().forEach(symbol => this.props.fetchStock(symbol));
   }
 
   componentDidUpdate(prevProps) {
@@ -16,20 +16,36 @@ class WatchedStocks extends React.Component {
     });
   }
 
+  watchedAndNotOwned() {
+    const { watchedStocks, owned } = this.props;
+    const watchedAndNotOwned = [];
+    this.props.watchedStocks.forEach(symbol => {
+      if (!owned.includes(symbol)) watchedAndNotOwned.push(symbol);
+    });
+    return watchedAndNotOwned;
+  }
+
   render () {
-    const { watchedStocks, allStocks } = this.props;
-    if (watchedStocks === undefined) return '';
+    const { watchedStocks, allStocks, owned } = this.props;
+    if (watchedStocks === undefined || this.watchedAndNotOwned().length === 0) {
+      return '';
+    }
     return (
-      <StockIndex stocks={watchedStocks.map(symbol =>
+      <StockIndex stocks={this.watchedAndNotOwned().map(symbol =>
         allStocks[symbol] ? allStocks[symbol] : { symbol }
       )} />
     );
   }
 }
 
+const ownedStockSymbols = sharesOf => (
+  Object.keys(sharesOf).filter(symbol => sharesOf[symbol] > 0)
+);
+
 const mapStateToProps = state => ({
   watchedStocks: state.session.currentUser.watchedStocks,
-  allStocks: state.stocks
+  allStocks: state.stocks,
+  owned: ownedStockSymbols(state.session.currentUser.sharesOf)
 });
 
 export default connect(mapStateToProps, { fetchStock })(WatchedStocks);
