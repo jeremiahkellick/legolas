@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { fetchStock } from '../../actions/stock';
 import StockSidebar from './stock_sidebar';
 import StockMain from './stock_main';
+import Loader from '../loader';
 
 class StockPage extends React.Component {
   constructor(props) {
@@ -31,7 +32,9 @@ class StockPage extends React.Component {
   }
 
   render () {
-    if (!this.props.stock || !this.props.stock.companyName) return '';
+    if (this.props.stock === undefined) {
+      return <div className="full-screen"><Loader /></div>;
+    }
     return (
       <div className="container">
         <StockMain stock={this.props.stock} />

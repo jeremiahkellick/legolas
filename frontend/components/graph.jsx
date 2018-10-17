@@ -1,6 +1,7 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import { formatMoney } from '../util/util';
+import Loader from './loader';
 
 class Graph extends React.Component {
   constructor(props) {
@@ -103,7 +104,7 @@ class Graph extends React.Component {
     const data = this.props.data;
     const type = this.state.type;
     if (data[type] === undefined || data[type].points.length === 0) {
-      return <div className="graph-placeholder" />;
+      return <div className="graph-placeholder"><Loader /></div>;
     }
     const currData = data[type].points;
     if (currData[0].priceCents > currData[currData.length - 1].priceCents) {

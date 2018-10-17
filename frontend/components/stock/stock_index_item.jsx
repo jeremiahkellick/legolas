@@ -2,10 +2,18 @@ import React from 'react';
 import { formatMoney } from '../../util/util';
 import SmallGraph from './small_graph';
 import { Link } from 'react-router-dom';
-import { BeatLoader } from 'react-spinners';
+import Loader from '../loader';
 
 const StockIndexItem = ({ stock, shares }) => {
-  if (stock["1D"] === undefined) return <BeatLoader />;
+  if (stock["1D"] === undefined) {
+    return (
+      <li>
+        <Link to={`/stocks/${stock.symbol.toLowerCase()}`}>
+          <Loader />
+        </Link>
+      </li>
+    );
+  }
   return (
     <li>
       <Link to={`/stocks/${stock.symbol.toLowerCase()}`}>

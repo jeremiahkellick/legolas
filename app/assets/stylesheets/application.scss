@@ -191,6 +191,22 @@ input[type="submit"], button, .button, a {
   visibility: hidden;
 }
 
+.full-screen {
+  align-items: center;
+  background: $light-background;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 1;
+  .dark & {
+    background: $dark-background;
+  }
+}
+
 @import "header";
 @import "page";
 @import "components/log_in";

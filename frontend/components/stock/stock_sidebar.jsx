@@ -8,7 +8,7 @@ const StockSidebar = ({ stock }) => (
       <div className="sidebar-card">
         <StockForm stock={stock} />
       </div>
-      <div class="sidebar-buttons">
+      <div className="sidebar-buttons">
         <WatchButton symbol={stock.symbol} />
       </div>
     </div>
