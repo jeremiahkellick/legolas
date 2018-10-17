@@ -187,6 +187,10 @@ input[type="submit"], button, .button, a {
   }
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 @import "header";
 @import "page";
 @import "components/log_in";

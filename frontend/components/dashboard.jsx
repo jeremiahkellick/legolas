@@ -13,16 +13,11 @@ class Dashboard extends React.Component {
   }
 
   render () {
-    const charts = this.props.charts;
-    let graph = <div className="graph-placeholder" />;
-    if (charts['1D'] !== undefined && charts['1D'].points.length > 0) {
-      graph = <Graph data={this.props.charts} />;
-    }
     return (
       <div className="container">
         <div className="main">
           <h1>Welcome to Legolas</h1>
-          {graph}
+          <Graph data={this.props.charts} />
           <section>
             <h2>Recent News</h2>
             <News symbol="market" />

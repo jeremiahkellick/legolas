@@ -7,6 +7,8 @@ class Graph extends React.Component {
     super(props);
     this.state = { type: '1D' };
     this.showTooltipData = this.showTooltipData.bind(this);
+    this.graph = this.graph.bind(this);
+    this.price = this.price.bind(this);
   }
 
   showTooltipData(data) {
@@ -56,48 +58,11 @@ class Graph extends React.Component {
 
   render () {
     const data = this.props.data;
-    const type = this.state.type;
-    if (data[type] === undefined) return '';
-    const currData = data[type].points;
-    // debugger;
-    if (currData[0].priceCents > currData[currData.length - 1].priceCents) {
-      document.body.classList.add('red');
-    } else {
-      document.body.classList.remove('red');
-    }
     return (
       <div>
-        <h1 className="price">
-          <span id="price">{formatMoney(data.priceCents / 100)}</span>
-          <span id="hover-price"></span>
-        </h1>
+        { this.price() }
         <div className="graph">
-          <LineChart
-            width={676}
-            height={196}
-            data={data[type].points}>
-            <XAxis
-              type="number"
-              dataKey="time"
-              domain={[data[type].min, data[type].max]}
-              hide={true} />
-            <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
-            <Tooltip
-              isAnimationActive={false}
-              content={this.showTooltipData}
-              position={{ y: -19 }}
-              offset={-35}
-              cursor={{ stroke: null }}
-              viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
-            <Line
-              type="monotone"
-              dataKey="priceCents"
-              stroke={null}
-              strokeWidth="2"
-              dot={false}
-              activeDot={{ r: 5, stroke: null, fill: null }}
-              type="linear" />
-          </LineChart>
+          { this.graph() }
           <ul>
             {
               ['1D', '1W', '1M', '3M', '1Y', '5Y'].map(type =>
@@ -114,6 +79,63 @@ class Graph extends React.Component {
           </ul>
         </div>
       </div>
+    );
+  }
+
+  price() {
+    const data = this.props.data;
+    if (data === undefined || data.priceCents === undefined) {
+      return (
+        <h1 className="price invisible">Price</h1>
+      );
+    }
+    return (
+      <h1 className="price">
+        <span id="price">{formatMoney(data.priceCents / 100)}</span>
+        <span id="hover-price"></span>
+      </h1>
+    );
+  }
+
+  graph() {
+    const data = this.props.data;
+    const type = this.state.type;
+    if (data[type] === undefined || data[type].points.length === 0) {
+      return <div className="graph-placeholder" />;
+    }
+    const currData = data[type].points;
+    if (currData[0].priceCents > currData[currData.length - 1].priceCents) {
+      document.body.classList.add('red');
+    } else {
+      document.body.classList.remove('red');
+    }
+    return (
+      <LineChart
+        width={676}
+        height={196}
+        data={data[type].points}>
+        <XAxis
+          type="number"
+          dataKey="time"
+          domain={[data[type].min, data[type].max]}
+          hide={true} />
+        <YAxis type="number" domain={['dataMin', 'dataMax']} hide={true} />
+        <Tooltip
+          isAnimationActive={false}
+          content={this.showTooltipData}
+          position={{ y: -19 }}
+          offset={-35}
+          cursor={{ stroke: null }}
+          viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
+        <Line
+          type="monotone"
+          dataKey="priceCents"
+          stroke={null}
+          strokeWidth="2"
+          dot={false}
+          activeDot={{ r: 5, stroke: null, fill: null }}
+          type="linear" />
+      </LineChart>
     );
   }
 }
