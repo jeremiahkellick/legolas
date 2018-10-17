@@ -45,6 +45,7 @@ class StockForm extends React.Component {
     const { stock, currentUser, errors } = this.props;
     const shares = this.state.shares;
     const sharesNum = shares === '' ? 0 : parseInt(shares);
+    const submitText = this.state.tab === 'buy' ? 'Submit Buy' : 'Submit Sell';
     return (
       <div>
         <h3>
@@ -87,7 +88,7 @@ class StockForm extends React.Component {
               <div>{error}</div>
             </div>
           ) }
-          <input type="submit" value="Submit Order" />
+          <input type="submit" value={submitText} />
         </form>
         <section className="user-info">
           {

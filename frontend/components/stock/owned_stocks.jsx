@@ -5,7 +5,7 @@ import StockIndex from './stock_index';
 const OwnedStocks = ({ sharesOf, allStocks }) => {
   const stocks = [];
   const symbols = Object.keys(sharesOf).forEach(symbol => {
-    if (sharesOf[symbol] > 0) stocks.push(allStocks[symbol]);
+    if (sharesOf[symbol] > 0) stocks.push(allStocks[symbol] || { symbol });
   });
   return <StockIndex stocks={stocks} sharesOf={sharesOf} />;
 };

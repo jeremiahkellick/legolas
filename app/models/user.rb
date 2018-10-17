@@ -99,15 +99,20 @@ class User < ApplicationRecord
       end
     end
     clear_times_to_remove(charts[:user_charts])
-    charts[:user_charts].each do |key, value|
-      if value.is_a?(Hash)
-        value[:points] = value[:points].keys.sort.map { |k| value[:points][k] }
-      end
-    end
+    charts_hashes_to_arrays(charts[:user_charts])
+    add_balance_to_charts(charts[:user_charts])
     charts
   end
 
   private
+
+  def add_balance_to_charts(charts)
+    charts[:price_cents] += balance_cents if charts[:price_cents]
+    charts.each do |type, chart|
+      next unless chart.is_a?(Hash)
+      chart[:points].each { |point| point[:price_cents] += balance_cents }
+    end
+  end
 
   def charts_hashes_to_arrays(charts)
     charts.each do |key, value|

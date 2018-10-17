@@ -15,12 +15,14 @@ class WatchedStocks extends React.Component {
       }
     });
   }
-  
+
   render () {
     const { watchedStocks, allStocks } = this.props;
     if (watchedStocks === undefined) return '';
     return (
-      <StockIndex stocks={watchedStocks.map(symbol => allStocks[symbol])} />
+      <StockIndex stocks={watchedStocks.map(symbol =>
+        allStocks[symbol] ? allStocks[symbol] : { symbol }
+      )} />
     );
   }
 }

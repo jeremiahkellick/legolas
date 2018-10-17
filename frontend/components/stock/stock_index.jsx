@@ -1,19 +1,17 @@
 import React from 'react';
 import StockIndexItem from './stock_index_item';
 
-const StockIndex = ({ stocks, sharesOf }) => (
-  <ul className="stocks">
-    { stocks.map(stock =>
-      stock === undefined ? (
-        ''
-      ) : (
+const StockIndex = ({ stocks, sharesOf }) => {
+  return (
+    <ul className="stocks">
+      { stocks.map(stock =>
         <StockIndexItem
           stock={stock}
-          shares={sharesOf === undefined ? undefined : sharesOf[stock.symbol]}
+          shares={sharesOf && sharesOf[stock.symbol]}
           key={stock.symbol} />
-      )
-    ) }
-  </ul>
-);
+      ) }
+    </ul>
+  );
+};
 
 export default StockIndex;

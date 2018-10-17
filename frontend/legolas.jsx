@@ -15,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const preloadedState = {};
   if (window.currentUser) {
     preloadedState.session = { currentUser: window.currentUser };
-    preloadedState.session.currentUser.sharesOf = {};
     preloadedState.session.currentUser.charts = {};
   }
   const store = configureStore(preloadedState);

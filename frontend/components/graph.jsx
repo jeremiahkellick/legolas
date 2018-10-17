@@ -9,11 +9,13 @@ class Graph extends React.Component {
     this.showTooltipData = this.showTooltipData.bind(this);
     this.graph = this.graph.bind(this);
     this.price = this.price.bind(this);
+    this.priceRef = React.createRef();
+    this.hoverPriceRef = React.createRef();
   }
 
   showTooltipData(data) {
-    const price = document.getElementById('price');
-    const hover = document.getElementById('hover-price');
+    const price = this.priceRef.current;
+    const hover = this.hoverPriceRef.current;
     if (price !== null && hover !== null) {
       if ( typeof data.payload[0] !== 'undefined') {
         price.classList.add('hide');
@@ -91,8 +93,8 @@ class Graph extends React.Component {
     }
     return (
       <h1 className="price">
-        <span id="price">{formatMoney(data.priceCents / 100)}</span>
-        <span id="hover-price"></span>
+        <span ref={this.priceRef}>{formatMoney(data.priceCents / 100)}</span>
+        <span ref={this.hoverPriceRef}></span>
       </h1>
     );
   }

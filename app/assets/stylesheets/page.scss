@@ -62,7 +62,6 @@
     border-bottom: 1px solid $light-border;
     display: flex;
     font-size: 16px;
-    justify-content: space-between;
     .dark & {
       border-bottom: 1px solid $dark-border;
       &:last-child {
@@ -79,6 +78,10 @@
       border-bottom: 3px solid transparent;
       display: block;
       line-height: 44px;
+      margin-right: 12px;
+      &:last-child {
+        margin-right: 0;
+      }
       &.active {
         color: $green;
         border-bottom: 3px solid $green;
