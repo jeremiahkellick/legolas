@@ -10,5 +10,7 @@ Rails.application.routes.draw do
     resources :news, only: :index
     resources :watches, only: :create
     delete '/watches/:symbol', to: 'watches#destroy'
+    get '/charts/day', to: 'charts#day'
+    get '/charts/five_years', to: 'charts#five_years'
   end
 end

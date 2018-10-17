@@ -57,6 +57,7 @@ class Graph extends React.Component {
   render () {
     const data = this.props.data;
     const type = this.state.type;
+    if (data[type] === undefined) return '';
     const currData = data[type].points;
     // debugger;
     if (currData[0].priceCents > currData[currData.length - 1].priceCents) {

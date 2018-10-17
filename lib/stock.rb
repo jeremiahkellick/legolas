@@ -37,6 +37,34 @@ class Stock
     ))
   end
 
+  def self.day_chart(symbol, key_by_time: false, clear_zeroes: true)
+    symbol = symbol.upcase
+    lwrSymbol = symbol.downcase
+    stock = { symbol: symbol }
+    iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
+    iexDay = HTTParty.get(iexDayURL).parsed_response
+    return nil if iexDay == "Unknown symbol"
+    stock.merge!(process_day(
+      iexDay,
+      key_by_time: key_by_time,
+      clear_zeroes: clear_zeroes
+    ))
+  end
+
+  def self.five_years_charts(symbol, key_by_time: false, clear_zeroes: true)
+    symbol = symbol.upcase
+    lwrSymbol = symbol.downcase
+    stock = { symbol: symbol }
+    fiveYearURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
+    iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
+    return nil if iexFiveYear == "Unknown symbol"
+    stock.merge!(process_five_years(
+      iexFiveYear,
+      key_by_time: key_by_time,
+      clear_zeroes: clear_zeroes
+    ))
+  end
+
   private
 
   def self.charts_from_iex_data(
@@ -45,15 +73,35 @@ class Stock
     key_by_time: false,
     clear_zeroes: true
   )
-    close = iexDay.last["close"] || iexDay.last["marketClose"]
+    process_day(
+      iexDay,
+      key_by_time: key_by_time,
+      clear_zeroes: clear_zeroes
+    ).merge!(process_five_years(
+      iexFiveYear,
+      key_by_time: key_by_time,
+      clear_zeroes: clear_zeroes
+    ))
+  end
+
+  def self.process_day(iexDay, key_by_time: false, clear_zeroes: true)
     {
-      price_cents: (close.to_f * 100).round,
+      price_cents: (most_recent_close(iexDay).to_f * 100).round,
       "1D" => extract_times(
         iexDay,
         divisor: 5,
         key_by_time: key_by_time,
         clear_zeroes: clear_zeroes
-      ),
+      )
+    }
+  end
+
+  def self.process_five_years(
+    iexFiveYear,
+    key_by_time: false,
+    clear_zeroes: true
+  )
+    {
       "1W" => extract_days(
         iexFiveYear,
         1,
@@ -91,6 +139,16 @@ class Stock
         clear_zeroes: clear_zeroes
       )
     }
+  end
+
+  def self.most_recent_close(iexDay)
+    close = nil
+    i = -1
+    until close || i.abs > iexDay.length
+      close = iexDay[i]["close"] || iexDay[i]["marketClose"] || nil
+      i -= 1
+    end
+    close
   end
 
   def self.extract_times(

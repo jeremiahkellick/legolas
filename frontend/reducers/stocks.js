@@ -1,5 +1,5 @@
 import { RECEIVE_STOCK, STOCK_NOT_FOUND } from '../actions/stock';
-import { RECEIVE_CHARTS } from '../actions/session';
+import { RECEIVE_CHARTS } from '../actions/chart';
 import merge from 'lodash/merge';
 
 const upcaseSymbols = stocks => {

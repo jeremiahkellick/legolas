@@ -1,8 +1,5 @@
-import {
-  RECEIVE_CURRENT_USER,
-  LOG_OUT,
-  RECEIVE_CHARTS
-} from '../actions/session';
+import { RECEIVE_CURRENT_USER, LOG_OUT } from '../actions/session';
+import { RECEIVE_CHARTS } from '../actions/chart';
 import { WATCH_STOCK, UNWATCH_STOCK } from '../actions/watch';
 import merge from 'lodash/merge';
 

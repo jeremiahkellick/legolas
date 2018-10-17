@@ -62,22 +62,38 @@ class User < ApplicationRecord
                                  .to_h
   end
 
-  def charts
-    @times_to_remove = []
-    charts = { stocks: {}, user_charts: {} }
-    shares_hash.each do |symbol, shares|
-      stock_charts_hash = Stock.charts(
+  def day_charts
+    charts = shares_hash.map do |symbol, _|
+      Stock.day_chart(
         symbol,
         key_by_time: true,
         clear_zeroes: false
-      ) do |time|
-        shares_of(symbol, at_time: time)
-      end
+      )
+    end
+    combine_charts(charts)
+  end
+
+  def five_years_charts
+    charts = shares_hash.map do |symbol, _|
+      Stock.five_years_charts(
+        symbol,
+        key_by_time: true,
+        clear_zeroes: false
+      )
+    end
+    combine_charts(charts)
+  end
+
+  def combine_charts(stock_charts_hashes)
+    @times_to_remove = []
+    charts = { stocks: {}, user_charts: {} }
+    stock_charts_hashes.each do |stock_charts_hash|
+      symbol = stock_charts_hash[:symbol]
       user_charts = stock_charts_hash.deep_dup
       user_charts.delete(:symbol)
       clear_zeroes(stock_charts_hash)
       charts[:stocks][symbol] = charts_hashes_to_arrays(stock_charts_hash)
-      apply_multiplier_to_charts(symbol, user_charts, shares)
+      apply_multiplier_to_charts(symbol, user_charts)
       charts[:user_charts].deep_merge!(user_charts) do |key, a, b|
         key == :price_cents ? a + b : b
       end
@@ -119,9 +135,9 @@ class User < ApplicationRecord
     end
   end
 
-  def apply_multiplier_to_charts(symbol, charts, current_shares_of)
+  def apply_multiplier_to_charts(symbol, charts)
     if charts[:price_cents]
-      charts[:price_cents] *= current_shares_of
+      charts[:price_cents] *= shares_hash[symbol]
     end
     charts.each do |key, value|
       if value.is_a?(Hash)

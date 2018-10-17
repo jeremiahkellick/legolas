@@ -1,14 +1,15 @@
 import React from 'react';
 import Graph from './graph';
 import { connect } from 'react-redux';
-import { fetchCharts } from '../actions/session';
+import { fetchDayChart, fetchFiveYearsCharts } from '../actions/chart';
 import News from './news/news';
 import OwnedStocks from './stock/owned_stocks';
 import WatchedStocks from './stock/watched_stocks';
 
 class Dashboard extends React.Component {
   componentDidMount() {
-    this.props.fetchCharts();
+    this.props.fetchDayChart();
+    this.props.fetchFiveYearsCharts();
   }
 
   render () {
@@ -44,4 +45,6 @@ class Dashboard extends React.Component {
 
 const mapStateToProps = state => ({ charts: state.session.currentUser.charts });
 
-export default connect(mapStateToProps, { fetchCharts })(Dashboard);
+const mapDispatchToProps = { fetchDayChart, fetchFiveYearsCharts };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
