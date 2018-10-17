@@ -13,6 +13,7 @@ class WatchButton extends React.Component {
   }
 
   render () {
+    if (this.props.owned.includes(this.props.symbol)) return '';
     const action = this.props.watched ? "Remove from" : "Add to";
     return (
       <button onClick={this.handleClick.bind(this)} className="watch-button">
@@ -23,7 +24,8 @@ class WatchButton extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => ({
-  watched: state.session.currentUser.watchedStocks.includes(ownProps.symbol)
+  watched: state.session.currentUser.watchedStocks.includes(ownProps.symbol),
+  owned: Object.keys(state.session.currentUser.sharesOf)
 });
 
 const mapDispatchToProps = { watchStock, unwatchStock };
