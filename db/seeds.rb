@@ -21,13 +21,13 @@ User.create!(
 User.first.transactions.create!(
   symbol: "AMZN",
   shares: 100,
-  time: 5.years.ago
+  time: 4.years.ago
 )
 
 User.first.transactions.create!(
   symbol: "AAPL",
   shares: 300,
-  time: 4.years.ago
+  time: 3.years.ago
 )
 
 User.first.transactions.create!(
