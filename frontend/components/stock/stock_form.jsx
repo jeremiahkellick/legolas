@@ -79,7 +79,7 @@ class StockForm extends React.Component {
             <div>{formatMoney(stock.priceCents / 100)}</div>
           </div>
           <div className="form-group cost bold">
-            <div>Estimated Cost</div>
+            <div>Estimated {this.state.tab === 'buy' ? 'Cost' : 'Credit'}</div>
             <div>{formatMoney(stock.priceCents / 100 * sharesNum)}</div>
           </div>
           { errors.map(error =>
