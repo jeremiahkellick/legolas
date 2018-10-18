@@ -23,9 +23,13 @@ class WatchButton extends React.Component {
   }
 }
 
+const ownedStockSymbols = sharesOf => (
+  Object.keys(sharesOf).filter(symbol => sharesOf[symbol] > 0)
+);
+
 const mapStateToProps = (state, ownProps) => ({
   watched: state.session.currentUser.watchedStocks.includes(ownProps.symbol),
-  owned: Object.keys(state.session.currentUser.sharesOf)
+  owned: ownedStockSymbols(state.session.currentUser.sharesOf)
 });
 
 const mapDispatchToProps = { watchStock, unwatchStock };

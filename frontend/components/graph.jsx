@@ -12,28 +12,49 @@ class Graph extends React.Component {
     this.price = this.price.bind(this);
     this.priceRef = React.createRef();
     this.hoverPriceRef = React.createRef();
+    this.priceChangeRef = React.createRef();
+    this.hoverPriceChangeRef = React.createRef();
   }
 
-  showTooltipData(data) {
+  showTooltipData(tooltipData) {
+    const data = this.props.data;
+    const type = this.state.type;
     const price = this.priceRef.current;
     const hover = this.hoverPriceRef.current;
-    if (price !== null && hover !== null) {
-      if ( typeof data.payload[0] !== 'undefined') {
+    const priceChange = this.priceChangeRef.current;
+    const hoverPriceChange = this.hoverPriceChangeRef.current;
+    if (price && hover) {
+      if (typeof tooltipData.payload[0] !== 'undefined') {
         price.classList.add('hide');
-        hover.innerText = formatMoney(data.payload[0].value / 100);
+        hover.innerText = formatMoney(tooltipData.payload[0].value / 100);
       } else {
         price.classList.remove('hide');
         hover.innerText = '';
       }
     }
-    data.viewBox = { x: -20, y: 0, width: 716, height: 400 };
-    if (data.label !== undefined) {
+    if (priceChange && hoverPriceChange) {
+      if (typeof tooltipData.payload[0] !== 'undefined') {
+        priceChange.classList.add('hide');
+        const firstPrice = data[type].points[0].priceCents;
+        const priceChangeNum = tooltipData.payload[0].value - firstPrice;
+        const percentChange = priceChangeNum / firstPrice * 100;
+        hoverPriceChange.innerText = formatMoney(priceChangeNum / 100, true) +
+                                     ` (${percentChange.toFixed(2)}%)`;
+      } else {
+        priceChange.classList.remove('hide');
+        hoverPriceChange.innerText = '';
+      }
+    }
+    tooltipData.viewBox = { x: -20, y: 0, width: 716, height: 400 };
+    if (tooltipData.label !== undefined) {
       return (
         this.state.type === '1D' ? (
-          <div className="time">{this._formatTime(new Date(data.label))}</div>
+          <div className="time">
+            {this._formatTime(new Date(tooltipData.label))}
+          </div>
         ) : (
           <div className="time">
-            {this._formatDate(new Date(data.label))}
+            {this._formatDate(new Date(tooltipData.label))}
           </div>
         )
       );
@@ -87,16 +108,42 @@ class Graph extends React.Component {
 
   price() {
     const data = this.props.data;
+    const type = this.state.type;
     if (data === undefined || data.priceCents === undefined) {
       return (
-        <h1 className="price invisible">Price</h1>
+        <div>
+          <h1 className="price invisible">Price</h1>
+          <p className="price-change invisible"></p>
+        </div>
       );
     }
+    const priceChange = data.priceCents - data[type].points[0].priceCents;
+    const percentChange = priceChange / data[type].points[0].priceCents * 100;
+    const timeStrings = {
+      '1D': 'Today',
+      '1W': 'Past Week',
+      '1M': 'Past Month',
+      '3M': 'Past 3 Months',
+      '1Y': 'Past Year',
+      '5Y': 'Past 5 Years'
+    };
     return (
-      <h1 className="price">
-        <span ref={this.priceRef}>{formatMoney(data.priceCents / 100)}</span>
-        <span ref={this.hoverPriceRef}></span>
-      </h1>
+      <div>
+        <h1 className="price">
+          <span ref={this.priceRef}>{formatMoney(data.priceCents / 100)}</span>
+          <span ref={this.hoverPriceRef}></span>
+        </h1>
+        <p className="price-change">
+          <span ref={this.priceChangeRef}>
+            {
+              formatMoney(priceChange / 100, true) +
+              ` (${percentChange.toFixed(2)}%) ` +
+              timeStrings[type]
+            }
+          </span>
+          <span ref={this.hoverPriceChangeRef}></span>
+        </p>
+      </div>
     );
   }
 
