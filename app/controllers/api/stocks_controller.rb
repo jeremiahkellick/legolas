@@ -10,4 +10,14 @@ class Api::StocksController < ApplicationController
       render plain: "Stock not found", status: 404
     end
   end
+
+  def week
+    symbol = params[:symbol].upcase
+    @stock = Stock.detailed_week_chart(symbol)
+    if @stock
+      render json: @stock
+    else
+      render plain: "Stock not found", status: 404
+    end
+  end
 end

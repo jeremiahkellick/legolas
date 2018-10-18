@@ -13,7 +13,18 @@ const upcaseSymbols = stocks => {
 const stocksReducer = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_STOCK:
-      return merge({}, state, { [action.stock.symbol]: action.stock });
+      const mergingLessDetailed = state[action.stock.symbol] &&
+                                  state[action.stock.symbol]["1W"].detailed &&
+                                  !action.stock["1W"].detailed;
+      let oldWeek = null;
+      if (mergingLessDetailed) oldWeek = state[action.stock.symbol]["1W"];
+      const newState = merge(
+        {},
+        state,
+        { [action.stock.symbol]: action.stock }
+      );
+      if (mergingLessDetailed) newState[action.stock.symbol]["1W"] = oldWeek;
+      return newState;
     case STOCK_NOT_FOUND:
       return merge({}, state, { [action.symbol]: null });
     case RECEIVE_CHARTS:

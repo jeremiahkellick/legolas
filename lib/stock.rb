@@ -65,6 +65,21 @@ class Stock
     ))
   end
 
+  def self.detailed_week_chart(symbol, key_by_time: false, clear_zeroes: true)
+    symbol = symbol.upcase
+    stock = { symbol: symbol }
+    weekURL = "https://www.alphavantage.co/query" +
+              "?function=TIME_SERIES_INTRADAY&symbol=#{symbol}&interval=5min" +
+              "&apikey=#{ENV["ALPHA_VANTAGE_API_KEY"]}&outputsize=full"
+    res = HTTParty.get(weekURL).parsed_response
+    return nil unless res.key?("Time Series (5min)")
+    stock.merge!(process_week(
+      res["Time Series (5min)"],
+      key_by_time: key_by_time,
+      clear_zeroes: clear_zeroes
+    ))
+  end
+
   private
 
   def self.charts_from_iex_data(
@@ -101,15 +116,17 @@ class Stock
     key_by_time: false,
     clear_zeroes: true
   )
+    week_chart = extract_days(
+      iexFiveYear,
+      1,
+      5,
+      by_count: true,
+      key_by_time: key_by_time,
+      clear_zeroes: clear_zeroes
+    )
+    week_chart[:detailed] = false
     {
-      "1W" => extract_days(
-        iexFiveYear,
-        1,
-        5,
-        by_count: true,
-        key_by_time: key_by_time,
-        clear_zeroes: clear_zeroes
-      ),
+      "1W" => week_chart,
       "1M" => extract_days(
         iexFiveYear,
         1,
@@ -149,6 +166,28 @@ class Stock
       i -= 1
     end
     close
+  end
+
+  def self.process_week(week, clear)
+    points = []
+    min = "dataMin"
+    max = "dataMax"
+    prev_time = nil
+    days = 0
+    current_day = nil
+    week.each.with_index do |(datetime, data), i|
+      time = parse_av_datetime(datetime)
+      days += 1 if prev_time.nil? || time.day != prev_time.day
+      if days > 5
+        max = prev_time.to_i * 1000
+        break
+      end
+      prev_time = time
+      price = (data["1. open"].to_f * 100).round
+      points.unshift({ price_cents: price, time: time.to_i * 1000 })
+      min = time.to_i * 1_000 if i == 0
+    end
+    { "1W" => { min: min, max: max, points: points, detailed: true } }
   end
 
   def self.extract_times(
@@ -228,5 +267,9 @@ class Stock
 
   def self.parse_date(date)
     Time.new(*date.split("-").map(&:to_i), 16, 0, 0, "-04:00")
+  end
+
+  def self.parse_av_datetime(datetime)
+    Time.new(*datetime.split(/[- :]/), "-04:00") - 5.minutes
   end
 end

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     get '/charts', to: 'sessions#charts'
     resources :transactions, only: [:create]
     get '/stocks/:symbol', to: 'stocks#show'
+    get '/stocks/:symbol/week', to: 'stocks#week'
     resources :news, only: :index
     resources :watches, only: :create
     delete '/watches/:symbol', to: 'watches#destroy'

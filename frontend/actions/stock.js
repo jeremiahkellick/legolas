@@ -16,3 +16,7 @@ export const fetchStock = symbol => dispatch => (
     () => dispatch(stockNotFound(symbol))
   )
 );
+
+export const fetchWeekChart = symbol => dispatch => (
+  APIUtil.fetchWeekChart(symbol).then(stock => dispatch(receiveStock(stock)))
+);

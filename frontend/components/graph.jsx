@@ -46,19 +46,28 @@ class Graph extends React.Component {
       }
     }
     tooltipData.viewBox = { x: -20, y: 0, width: 716, height: 400 };
+    let timeString = '';
+    if (this.state.type === '1D') {
+      timeString = `${this._formatTime(new Date(tooltipData.label))} ET`;
+    } else if (this.weekAndDetailed()) {
+      const time = this._formatTime(new Date(tooltipData.label));
+      const date = this._formatDate(new Date(tooltipData.label), false);
+      timeString = `${time}, ${date} ET`;
+    } else {
+      timeString = this._formatDate(new Date(tooltipData.label));
+    }
     if (tooltipData.label !== undefined) {
       return (
-        this.state.type === '1D' ? (
-          <div className="time">
-            {this._formatTime(new Date(tooltipData.label))}
-          </div>
-        ) : (
-          <div className="time">
-            {this._formatDate(new Date(tooltipData.label))}
-          </div>
-        )
+        <div className="time">
+          {timeString}
+        </div>
       );
     }
+  }
+
+  weekAndDetailed() {
+    const type = this.state.type;
+    return type === '1W' && this.props.data[type].detailed;
   }
 
   _formatTime(time) {
@@ -70,14 +79,18 @@ class Graph extends React.Component {
       hours -= 12;
       peroid = 'PM';
     }
-    return `${hours}:${min} ${peroid} ET`;
+    return `${hours}:${min} ${peroid}`;
   }
 
-  _formatDate(date) {
+  _formatDate(date, includeYear = true) {
     let [month, day, year] = date.toDateString().split(' ').slice(1);
     if (day === undefined) return '';
     if (day[0] === '0') day = day[1];
-    return `${month} ${day}, ${year}`.toUpperCase();
+    if (includeYear) {
+      return `${month} ${day}, ${year}`.toUpperCase();
+    } else {
+      return `${month} ${day}`.toUpperCase();
+    }
   }
 
   render () {
@@ -165,7 +178,7 @@ class Graph extends React.Component {
         height={196}
         data={data[type].points}>
         <XAxis
-          type="number"
+          type={this.weekAndDetailed() ? "category" : "number"}
           dataKey="time"
           domain={[data[type].min, data[type].max]}
           hide={true} />
@@ -174,7 +187,7 @@ class Graph extends React.Component {
           isAnimationActive={false}
           content={this.showTooltipData}
           position={{ y: -19 }}
-          offset={-35}
+          offset={this.weekAndDetailed() ? -60 : -35}
           cursor={{ stroke: null }}
           viewBox={{ x: -20, y: 0, width: 716, height: 400 }} />
         <Line

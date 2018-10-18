@@ -1,1 +1,5 @@
-export const fetchStock = id => $.ajax({ url: `/api/stocks/${id}` });
+export const fetchStock = symbol => $.ajax({ url: `/api/stocks/${symbol}` });
+
+export const fetchWeekChart = symbol => (
+  $.ajax({ url: `/api/stocks/${symbol}/week` })
+);
