@@ -72,6 +72,9 @@ class Stock
               "?function=TIME_SERIES_INTRADAY&symbol=#{symbol}&interval=5min" +
               "&apikey=#{ENV["ALPHA_VANTAGE_API_KEY"]}&outputsize=full"
     res = HTTParty.get(weekURL).parsed_response
+    if res.key?("Information") && res["Information"].start_with?("Thank you")
+      puts "Alpha Vantage call limit reached"
+    end
     return nil unless res.key?("Time Series (5min)")
     stock.merge!(process_week(
       res["Time Series (5min)"],
