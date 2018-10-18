@@ -15,3 +15,7 @@ export const fetchDayChart = () => dispatch => (
 export const fetchFiveYearsCharts = () => dispatch => (
   APIUtil.fetchFiveYearsCharts().then(res => dispatch(receiveCharts(res)))
 );
+
+export const fetchWeekChart = () => dispatch => (
+  APIUtil.fetchWeekChart().then(res => dispatch(receiveCharts(res)))
+);

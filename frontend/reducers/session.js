@@ -2,6 +2,7 @@ import { RECEIVE_CURRENT_USER, LOG_OUT } from '../actions/session';
 import { RECEIVE_CHARTS } from '../actions/chart';
 import { WATCH_STOCK, UNWATCH_STOCK } from '../actions/watch';
 import merge from 'lodash/merge';
+import { mergeStocks } from '../util/util';
 
 const _nullSession = { currentUser: { sharesOf: {}, charts: {} } };
 
@@ -25,7 +26,12 @@ const sessionReducer = (state = _nullSession, action) => {
       return merge({}, state, { currentUser: action.currentUser });
     case RECEIVE_CHARTS:
       upcaseSharesOfKeys(action.currentUser);
-      return merge({}, state, { currentUser: action.currentUser });
+      const newCharts = mergeStocks(
+        merge({}, state.currentUser.charts),
+        action.currentUser.charts,
+        true
+      );
+      return merge({}, state, { currentUser: { charts: newCharts } });
     case LOG_OUT:
       return _nullSession;
     case WATCH_STOCK:

@@ -4,7 +4,6 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     resources :users, only: [:create]
     resource :session, only: [:create, :destroy]
-    get '/charts', to: 'sessions#charts'
     resources :transactions, only: [:create]
     get '/stocks/:symbol', to: 'stocks#show'
     get '/stocks/:symbol/week', to: 'stocks#week'
@@ -13,5 +12,6 @@ Rails.application.routes.draw do
     delete '/watches/:symbol', to: 'watches#destroy'
     get '/charts/day', to: 'charts#day'
     get '/charts/five_years', to: 'charts#five_years'
+    get '/charts/week', to: 'charts#week'
   end
 end

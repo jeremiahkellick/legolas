@@ -1,6 +1,7 @@
 import { RECEIVE_STOCK, STOCK_NOT_FOUND } from '../actions/stock';
 import { RECEIVE_CHARTS } from '../actions/chart';
 import merge from 'lodash/merge';
+import { mergeStocks, mergeStockHashes } from '../util/util';
 
 const upcaseSymbols = stocks => {
   const upcasedStocks = {};
@@ -11,24 +12,20 @@ const upcaseSymbols = stocks => {
 };
 
 const stocksReducer = (state = {}, action) => {
+  const merger = merge;
+  const mergeHashes = mergeStockHashes;
   switch (action.type) {
     case RECEIVE_STOCK:
-      const mergingLessDetailed = state[action.stock.symbol] &&
-                                  state[action.stock.symbol]["1W"].detailed &&
-                                  !action.stock["1W"].detailed;
-      let oldWeek = null;
-      if (mergingLessDetailed) oldWeek = state[action.stock.symbol]["1W"];
-      const newState = merge(
+      const oldStock = state[action.stock.symbol];
+      return merge(
         {},
         state,
-        { [action.stock.symbol]: action.stock }
+        { [action.stock.symbol]: mergeStocks(oldStock, action.stock) }
       );
-      if (mergingLessDetailed) newState[action.stock.symbol]["1W"] = oldWeek;
-      return newState;
     case STOCK_NOT_FOUND:
       return merge({}, state, { [action.symbol]: null });
     case RECEIVE_CHARTS:
-      return merge({}, state, upcaseSymbols(action.stocks));
+      return merge({}, mergeStockHashes(merge({}, state), action.stocks));
     default:
       return state;
   }

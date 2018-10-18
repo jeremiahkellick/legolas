@@ -24,9 +24,4 @@ class Api::SessionsController < ApplicationController
       )
     end
   end
-
-  def charts
-    @charts = current_user.charts
-    @shares_of = current_user.shares_hash
-  end
 end

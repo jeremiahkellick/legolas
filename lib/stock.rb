@@ -168,8 +168,9 @@ class Stock
     close
   end
 
-  def self.process_week(week, clear)
+  def self.process_week(week, key_by_time: false, clear_zeroes: true)
     points = []
+    points = {} if key_by_time
     min = "dataMin"
     max = "dataMax"
     prev_time = nil
@@ -183,8 +184,16 @@ class Stock
         break
       end
       prev_time = time
-      price = (data["1. open"].to_f * 100).round
-      points.unshift({ price_cents: price, time: time.to_i * 1000 })
+      open_str = data["1. open"] || nil
+      next if clear_zeroes && open_str.nil?
+      price = (open_str.to_f * 100).round
+      next if clear_zeroes && price.zero?
+      time_int = time.to_i * 1_000
+      if key_by_time
+        points[time_int] = { price_cents: price, time: time_int }
+      else
+        points.unshift({ price_cents: price, time: time.to_i * 1000 })
+      end
       min = time.to_i * 1_000 if i == 0
     end
     { "1W" => { min: min, max: max, points: points, detailed: true } }

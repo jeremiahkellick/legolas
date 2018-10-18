@@ -93,6 +93,13 @@ class User < ApplicationRecord
     combine_charts(charts)
   end
 
+  def week_charts
+    charts = all_previously_owned_stock_symbols.map do |symbol|
+      Stock.detailed_week_chart(symbol, key_by_time: true, clear_zeroes: false)
+    end
+    combine_charts(charts)
+  end
+
   def combine_charts(stock_charts_hashes)
     @times_to_remove = []
     charts = { stocks: {}, user_charts: {} }
