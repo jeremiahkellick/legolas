@@ -31,6 +31,8 @@
     list-style: none;
     margin: 0;
     padding: 0 24px;
+  }
+  & > div {
     border-bottom: 1px solid $light-border;
     .dark & {
       border-bottom: 1px solid $dark-border;
