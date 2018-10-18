@@ -18,7 +18,7 @@ class Transaction < ApplicationRecord
   def symbol_must_be_known
     return if user.nil?
     ensure_price
-    unless @price.is_a?(Money)
+    unless @price_cents.is_a?(Numeric)
       errors[:base] << "Unknown symbol"
     end
   end
@@ -28,19 +28,21 @@ class Transaction < ApplicationRecord
   end
 
   def ensure_price
-    @price ||= Stock.price(symbol)
+    @price_cents ||= Stock.price_cents(symbol)
   end
 
   def remove_from_user_balance
     ensure_price
-    user.balance -= @price * shares
-    user.save!
+    user.balance_changes.create!(
+      amount_cents: -@price_cents * shares,
+      time: time
+    )
   end
 
   def user_must_have_enough_buying_power
     return if user.nil? || shares < 0
     ensure_price
-    unless user.balance > @price * shares
+    unless user.balance_cents > @price_cents * shares
       errors[:base] << "Not Enough Buying Power"
     end
   end

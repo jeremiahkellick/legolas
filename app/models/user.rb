@@ -12,12 +12,11 @@ class User < ApplicationRecord
   validates :email, :session_token, uniqueness: true
   validates :password, length: { minimum: 10, allow_nil: true }
 
-  monetize :balance_cents
-
   after_initialize :ensure_session_token
 
   has_many :transactions
   has_many :watches
+  has_many :balance_changes
 
   def password=(password)
     @password = password
@@ -47,6 +46,11 @@ class User < ApplicationRecord
     watches.map(&:symbol)
   end
 
+  def balance_cents(at_time: Time.now)
+    balance_changes.where("time <= ?", at_time).sum(:amount_cents) +
+      1_000_000 * 100
+  end
+
   def shares_of(symbol, at_time: Time.now)
     transactions
       .where(symbol: symbol.upcase)
@@ -62,8 +66,13 @@ class User < ApplicationRecord
                                  .to_h
   end
 
+  def all_previously_owned_stock_symbols
+    @all_previously_owned_stock_symbols ||=
+      transactions.group(:symbol).pluck(:symbol)
+  end
+
   def day_charts
-    charts = shares_hash.map do |symbol, _|
+    charts = all_previously_owned_stock_symbols.map do |symbol|
       Stock.day_chart(
         symbol,
         key_by_time: true,
@@ -74,7 +83,7 @@ class User < ApplicationRecord
   end
 
   def five_years_charts
-    charts = shares_hash.map do |symbol, _|
+    charts = all_previously_owned_stock_symbols.map do |symbol|
       Stock.five_years_charts(
         symbol,
         key_by_time: true,
@@ -110,7 +119,11 @@ class User < ApplicationRecord
     charts[:price_cents] += balance_cents if charts[:price_cents]
     charts.each do |type, chart|
       next unless chart.is_a?(Hash)
-      chart[:points].each { |point| point[:price_cents] += balance_cents }
+      chart[:points].each do |point|
+        point[:price_cents] += balance_cents(
+          at_time: Time.at(point[:time] / 1000)
+        )
+      end
     end
   end
 
@@ -142,7 +155,7 @@ class User < ApplicationRecord
 
   def apply_multiplier_to_charts(symbol, charts)
     if charts[:price_cents]
-      charts[:price_cents] *= shares_hash[symbol]
+      charts[:price_cents] *= shares_hash[symbol] || 0
     end
     charts.each do |key, value|
       if value.is_a?(Hash)

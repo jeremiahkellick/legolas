@@ -1,9 +1,9 @@
 class Stock
-  def self.price(symbol)
+  def self.price_cents(symbol)
     url = "https://api.iextrading.com/1.0/stock/#{symbol.downcase}/price"
     res = HTTParty.get(url).parsed_response
     return nil unless res.is_a?(Numeric)
-    Money.from_amount(res)
+    (res * 100).round
   end
 
   def self.info(symbol)

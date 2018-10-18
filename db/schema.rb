@@ -10,10 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_10_16_220032) do
+ActiveRecord::Schema.define(version: 2018_10_17_225826) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "balance_changes", force: :cascade do |t|
+    t.bigint "user_id"
+    t.integer "amount_cents", null: false
+    t.datetime "time", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["time"], name: "index_balance_changes_on_time"
+    t.index ["user_id"], name: "index_balance_changes_on_user_id"
+  end
 
   create_table "transactions", force: :cascade do |t|
     t.bigint "user_id"
@@ -31,8 +41,6 @@ ActiveRecord::Schema.define(version: 2018_10_16_220032) do
     t.string "email", null: false
     t.string "first_name", null: false
     t.string "last_name", null: false
-    t.integer "balance_cents", default: 0, null: false
-    t.string "balance_currency", default: "USD", null: false
     t.string "password_digest", null: false
     t.string "session_token", null: false
     t.datetime "created_at", null: false
@@ -50,6 +58,7 @@ ActiveRecord::Schema.define(version: 2018_10_16_220032) do
     t.index ["user_id"], name: "index_watches_on_user_id"
   end
 
+  add_foreign_key "balance_changes", "users"
   add_foreign_key "transactions", "users"
   add_foreign_key "watches", "users"
 end

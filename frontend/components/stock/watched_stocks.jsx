@@ -31,9 +31,12 @@ class WatchedStocks extends React.Component {
       return '';
     }
     return (
-      <StockIndex stocks={this.watchedAndNotOwned().map(symbol =>
-        allStocks[symbol] ? allStocks[symbol] : { symbol }
-      )} />
+      <div>
+        <h3><div>Watchlist</div></h3>
+        <StockIndex stocks={this.watchedAndNotOwned().map(symbol =>
+          allStocks[symbol] ? allStocks[symbol] : { symbol }
+        )} />
+      </div>
     );
   }
 }

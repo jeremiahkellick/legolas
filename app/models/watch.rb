@@ -11,6 +11,6 @@ class Watch < ApplicationRecord
   private
 
   def symbol_must_be_known
-    errors[:base] << "Unknown symbol" if Stock.price(symbol).nil?
+    errors[:base] << "Unknown symbol" if Stock.price_cents(symbol).nil?
   end
 end

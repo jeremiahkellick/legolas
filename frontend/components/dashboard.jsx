@@ -26,9 +26,7 @@ class Dashboard extends React.Component {
         <div className="sidebar-container">
           <div className="sidebar">
             <div className="sidebar-card">
-              <h3><div>Stocks</div></h3>
               <OwnedStocks />
-              <h3><div>Watchlist</div></h3>
               <WatchedStocks />
             </div>
           </div>

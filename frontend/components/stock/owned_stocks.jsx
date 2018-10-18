@@ -7,7 +7,12 @@ const OwnedStocks = ({ sharesOf, allStocks }) => {
   const symbols = Object.keys(sharesOf).forEach(symbol => {
     if (sharesOf[symbol] > 0) stocks.push(allStocks[symbol] || { symbol });
   });
-  return <StockIndex stocks={stocks} sharesOf={sharesOf} />;
+  return (
+    <div>
+      <h3><div>Stocks</div></h3>
+      <StockIndex stocks={stocks} sharesOf={sharesOf} />
+    </div>
+  );
 };
 
 const mapStateToProps = state => ({
