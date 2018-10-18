@@ -1,6 +1,9 @@
 .price {
   font-weight: 300;
   margin-bottom: 4px;
+  .dashboard & {
+    font-weight: 500;
+  }
 }
 
 .price-change {

@@ -15,8 +15,7 @@ class Dashboard extends React.Component {
   render () {
     return (
       <div className="container">
-        <div className="main">
-          <h1>Welcome to Legolas</h1>
+        <div className="main dashboard">
           <Graph data={this.props.charts} />
           <section>
             <h2>Recent News</h2>
