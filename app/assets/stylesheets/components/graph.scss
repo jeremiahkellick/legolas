@@ -13,6 +13,14 @@
   margin-bottom: 31px;
 }
 
+.price-change-time {
+  color: $light-placeholder;
+  font-weight: 400;
+  .dark & {
+    color: $dark-placeholder;
+  }
+}
+
 .graph-placeholder {
   align-items: center;
   display: flex;

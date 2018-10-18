@@ -150,9 +150,8 @@ class Graph extends React.Component {
           <span ref={this.priceChangeRef}>
             {
               formatMoney(priceChange / 100, true) +
-              ` (${percentChange.toFixed(2)}%) ` +
-              timeStrings[type]
-            }
+              ` (${percentChange.toFixed(2)}%) `
+            } <span className="price-change-time">{timeStrings[type]}</span>
           </span>
           <span ref={this.hoverPriceChangeRef}></span>
         </p>
