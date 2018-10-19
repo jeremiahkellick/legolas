@@ -35,6 +35,9 @@
     filter: alpha(opacity=100);
     transform: none;
   }
+  &.laptop.animated {
+    transform: translateY(-50%);
+  }
 }
 
 .step-1 {
@@ -58,6 +61,9 @@
   transform: translate(0, 10px);
   transition-delay: 600ms;
   transition-duration: 800ms;
+  &.laptop {
+    transform: translateY(-60%);
+  }
 }
 
 .step-4 {
@@ -66,4 +72,18 @@
   transform: translate(0, 10px);
   transition-delay: 800ms;
   transition-duration: 500ms;
+}
+
+.laptop-container {
+  position: relative;
+  width: 452px;
+  height: 100%;
+}
+
+.laptop {
+  position: absolute;
+  right: 0;
+  width: 700px;
+  top: 50%;
+  transform: translateY(-50%);
 }

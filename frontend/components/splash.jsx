@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import laptopImage from '../../app/assets/images/laptop.png';
 
 class Splash extends React.Component {
   componentDidMount() {
@@ -22,6 +23,9 @@ class Splash extends React.Component {
             Legolas lets you learn to invest in the stock market for free.
           </p>
           <Link className="button step-4" to="/log_in">Log In</Link>
+        </div>
+        <div className="laptop-container">
+          <img src={laptopImage} className="step-3 laptop" />
         </div>
       </section>
     );
