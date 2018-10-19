@@ -14,16 +14,7 @@ const SignUpPage = props => {
         </p>
         <SignUpFormContainer />
       </section>
-      <section className="sign-up-sidebar">
-        <Videos />
-        <p className="slide-title">
-          Stay on top of your portfolio.<br /> Anytime. Anywhere.
-        </p>
-        <p className="slide-text">
-          Fast execution, real-time market data, and smart notifications help
-          you make the most of the stock market no matter where you are.
-        </p>
-      </section>
+      <Videos />
     </div>
   );
 };
