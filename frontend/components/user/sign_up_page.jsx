@@ -1,6 +1,7 @@
 import React from 'react';
 import SignUpFormContainer from './sign_up_form_container';
 import timeImage from '../../../app/assets/images/time.jpg';
+import Videos from './videos';
 
 const SignUpPage = props => {
   document.body.classList.remove('red');
@@ -14,7 +15,7 @@ const SignUpPage = props => {
         <SignUpFormContainer />
       </section>
       <section className="sign-up-sidebar">
-        <img className="time-image" src={timeImage} />
+        <Videos />
         <p className="slide-title">
           Stay on top of your portfolio.<br /> Anytime. Anywhere.
         </p>
