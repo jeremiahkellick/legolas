@@ -46,8 +46,6 @@ class PieCharts extends React.Component {
     while (allocationData.length > 0) {
       allocationData.pop();
     }
-    console.log('balance', balanceCents);
-    console.log('assets', assetsValue);
     allocationData.push({ name: 'Cash', value: balanceCents });
     allocationData.push({ name: 'Assets', value: assetsValue });
     return (
