@@ -38,11 +38,11 @@ class Videos extends React.Component {
                     "signup/images/application/first_experience/" +
                     "FirstExperienceStopwatchMovie.mp4";
     stopwatch.title = (
-      <span>watchStay on top of your portfolio.<br /> Anytime. Anywhere.</span>
+      <span>Stay on top of your portfolio.<br /> Anytime. Anywhere.</span>
     );
     stopwatch.text = (
       <span>
-        watchFast execution, real-time market data, and smart notifications help
+        Fast execution, real-time market data, and smart notifications help
         you make the most of the stock market no matter where you are.
       </span>
     );
