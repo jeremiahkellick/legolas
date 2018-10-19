@@ -35,3 +35,9 @@ User.first.transactions.create!(
   shares: 100,
   time: 42.months.ago
 )
+
+User.first.watches.create!(symbol: 'DIS')
+User.first.watches.create!(symbol: 'MSFT')
+User.first.watches.create!(symbol: 'GE')
+User.first.watches.create!(symbol: 'TSLA')
+User.first.watches.create!(symbol: 'FB')
