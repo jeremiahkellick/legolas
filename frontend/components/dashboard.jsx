@@ -9,7 +9,7 @@ import {
 import News from './news/news';
 import OwnedStocks from './stock/owned_stocks';
 import WatchedStocks from './stock/watched_stocks';
-import HoldingsDiversity from './user/holdings_diversity';
+import PieCharts from './user/pie_charts';
 
 class Dashboard extends React.Component {
   componentDidMount() {
@@ -24,7 +24,7 @@ class Dashboard extends React.Component {
         <div className="main dashboard">
           <Graph data={this.props.charts} />
           <section>
-            <HoldingsDiversity />
+            <PieCharts />
           </section>
           <section>
             <h2>Recent News</h2>

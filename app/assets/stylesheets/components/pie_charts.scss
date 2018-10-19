@@ -1,0 +1,25 @@
+.recharts-surface {
+  text {
+    font-weight: 100;
+    fill: $light-foreground;
+    stroke: $light-foreground;
+    .dark & {
+      fill: $dark-foreground;
+      stroke: $dark-foreground;
+    }
+    &.heading {
+      font-weight: 300;
+    }
+  }
+}
+
+.recharts-pie {
+  fill: $green;
+  stroke: $light-background;
+  .red & {
+    fill: $red;
+  }
+  .dark & {
+    stroke: $dark-background;
+  }
+}
