@@ -11,7 +11,7 @@ export const formatMoney = (amount, showPlus = false) => {
 
 export const mergeStocks = (a, b) => {
   const mergingLessDetailed = a && a["1W"] && a["1W"].detailed &&
-                              !b["1W"].detailed;
+                              b["1W"] && !b["1W"].detailed;
   let oldWeek = null;
   if (mergingLessDetailed) oldWeek = a["1W"];
   const newStock = merge({}, a, b);
