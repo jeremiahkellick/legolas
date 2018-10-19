@@ -71,7 +71,28 @@ class User < ApplicationRecord
       transactions.group(:symbol).pluck(:symbol)
   end
 
+  def current_price_of_assets
+    @current_price_of_assets if @current_price_of_assets
+    price = 0
+    shares_hash.each do |symbol, shares|
+      price += Stock.price_cents(symbol) * shares
+    end
+    @current_price_of_assets = price
+  end
+
   def day_charts
+    if all_previously_owned_stock_symbols.empty?
+      balance = balance_cents
+      charts = { price_cents: balance }
+      ["1D", "1W", "1M", "3M", "1Y", "5Y"].each do |type|
+        charts[type] = {
+          min: "dataMin",
+          max: "dataMax",
+          points: [{ price_cents: balance, time: Time.now.to_i * 1000 }]
+        }
+      end
+      return { user_charts: charts, stocks: {} }
+    end
     charts = all_previously_owned_stock_symbols.map do |symbol|
       Stock.day_chart(
         symbol,
@@ -116,6 +137,7 @@ class User < ApplicationRecord
     end
     clear_times_to_remove(charts[:user_charts])
     charts_hashes_to_arrays(charts[:user_charts])
+    add_one_point_if_empty(charts[:user_charts])
     add_balance_to_charts(charts[:user_charts])
     charts
   end
@@ -138,6 +160,18 @@ class User < ApplicationRecord
     charts.each do |key, value|
       if value.is_a?(Hash)
         value[:points] = value[:points].keys.sort.map { |k| value[:points][k] }
+      end
+    end
+  end
+
+  def add_one_point_if_empty(charts)
+    charts.each do |type, chart|
+      if chart.is_a?(Hash)
+        if chart[:points].empty?
+          time = Time.now.to_i * 1000
+          price = charts[:price_cents] || current_price_of_assets
+          chart[:points] << { price_cents: price, time: time }
+        end
       end
     end
   end

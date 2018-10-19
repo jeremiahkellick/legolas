@@ -74,14 +74,11 @@ class Videos extends React.Component {
       <section className="sign-up-sidebar">
         {
           this.videos.map((video, i) =>
-            <div className={this.state.currentVideo === i ? "" : "hide"}>
-              <video
-                key={video.name}
-                ref={video.ref}
-                playsInline
-                autoPlay
-                muted>
+            <div
+              key={video.name}
+              className={this.state.currentVideo === i ? "" : "hide"}>
 
+              <video ref={video.ref} playsInline autoPlay muted>
                 <source src={video.url} type="video/mp4" />
                 Stopwatch animation
               </video>
