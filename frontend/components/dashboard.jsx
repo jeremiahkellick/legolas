@@ -9,6 +9,7 @@ import {
 import News from './news/news';
 import OwnedStocks from './stock/owned_stocks';
 import WatchedStocks from './stock/watched_stocks';
+import HoldingsDiversity from './user/holdings_diversity';
 
 class Dashboard extends React.Component {
   componentDidMount() {
@@ -22,6 +23,9 @@ class Dashboard extends React.Component {
       <div className="container">
         <div className="main dashboard">
           <Graph data={this.props.charts} />
+          <section>
+            <HoldingsDiversity />
+          </section>
           <section>
             <h2>Recent News</h2>
             <News symbol="market" />
