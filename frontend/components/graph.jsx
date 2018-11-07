@@ -122,7 +122,12 @@ class Graph extends React.Component {
   price() {
     const data = this.props.data;
     const type = this.state.type;
-    if (!data || data.priceCents === undefined || !data[type]) {
+    if (!data
+        || data.priceCents === undefined
+        || !data[type]
+        || !data[type].points
+        || !data[type].points[0]
+    ) {
       return (
         <div>
           <h1 className="price invisible">Price</h1>

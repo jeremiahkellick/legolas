@@ -5,7 +5,10 @@ import { Link } from 'react-router-dom';
 import Loader from '../loader';
 
 const StockIndexItem = ({ stock, shares }) => {
-  if (stock["1D"] === undefined) {
+  if (stock["1D"] === undefined
+      || !stock["1D"].points
+      || !stock["1D"].points[0]
+  ) {
     return (
       <li>
         <Link to={`/stocks/${stock.symbol.toLowerCase()}`}>
