@@ -21,8 +21,12 @@
   background: $light-background;
   box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $light-shadow;
   max-height: calc(100vh - 140px);
-  overflow: scroll;
+  overflow-y: scroll;
   padding-top: 4px;
+  &::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+  }
   .dark & {
     background: $dark-background;
     box-shadow: 0 0 4px 1px $small-shadow, 0 3px 24px $dark-shadow;
