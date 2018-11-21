@@ -4,7 +4,10 @@ import merge from 'lodash/merge';
 const newsReducer = (state = {}, action) => {
   switch (action.type) {
     case RECEIVE_NEWS:
-      return merge({}, state, { [action.symbol]: action.news });
+      const articlesWithImages = action.news.filter(article =>
+        article.urlToImage !== null
+      );
+      return merge({}, state, { [action.symbol]: articlesWithImages });
     default:
       return state;
   }
