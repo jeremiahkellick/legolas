@@ -82,13 +82,16 @@ class UserForm extends React.Component {
             if (field === 'email') {
               enterChar('password');
             } else {
-              this.submitThenRedirect();
+              this.setState(
+                { email: 'demouser@example.com', password: 'demouserpassword' },
+                this.submitThenRedirect
+              );
             }
           }
         }
       );
     };
-    enterChar('email');
+    this.setState({ email: '', password: '' }, () => enterChar('email'));
   }
 
   render () {
