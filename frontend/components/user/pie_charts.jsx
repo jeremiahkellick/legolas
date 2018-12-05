@@ -70,14 +70,13 @@ class PieCharts extends React.Component {
 
   holdingsPieChart() {
     if (!this.stocksLoaded()) return '';
-    const sharesOf = this.props.sharesOf;
+    const { sharesOf, stocks } = this.props;
     while (data.length > 0) data.pop();
-    const total = Object.values(sharesOf).reduce((acc, el) => acc + el, 0);
     Object.keys(sharesOf).forEach(symbol => {
       if (sharesOf[symbol] > 0) {
         data.push({
           name: symbol,
-          value: Math.round(sharesOf[symbol] / total * 100)
+          value: Math.round(sharesOf[symbol] * stocks[symbol].priceCents)
         });
       }
     });
