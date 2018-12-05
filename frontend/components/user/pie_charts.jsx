@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { PieChart, Pie } from 'recharts';
+import Loader from '../loader';
 
 const data = [];
 const allocationData = [];
@@ -100,6 +101,9 @@ class PieCharts extends React.Component {
   }
 
   render () {
+    if (!this.stocksLoaded()) {
+      return <div className="pie-charts-placeholder"><Loader /></div>;
+    }
     return (
       <PieChart width={800} height={260}>
         <text
