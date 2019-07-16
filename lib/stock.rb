@@ -1,6 +1,7 @@
 class Stock
   def self.price_cents(symbol)
-    url = "https://api.iextrading.com/1.0/stock/#{symbol.downcase}/price"
+    url = "https://cloud.iexapis.com/v1/stock/#{symbol.downcase}/price" +
+          "?token=#{ENV["IEX_API_KEY"]}"
     res = HTTParty.get(url).parsed_response
     return nil unless res.is_a?(Numeric)
     (res * 100).round
@@ -11,7 +12,8 @@ class Stock
     lwrSymbol = symbol.downcase
     stock = {}
     stock.merge!(charts(symbol))
-    iexCompanyURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/company"
+    iexCompanyURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/company" +
+                    "?token=#{ENV["IEX_API_KEY"]}"
     iexCompany = HTTParty.get(iexCompanyURL).parsed_response
     unless iexCompany == "Unknown symbol"
       stock.merge!(iexCompany.slice("companyName", "description"))
@@ -23,10 +25,12 @@ class Stock
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
-    iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
+    iexDayURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/1d" +
+                "?token=#{ENV["IEX_API_KEY"]}"
     iexDay = HTTParty.get(iexDayURL).parsed_response
     return nil if iexDay == "Unknown symbol"
-    fiveYearURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
+    fiveYearURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/5y" +
+                  "?token=#{ENV["IEX_API_KEY"]}"
     iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
     return nil if iexFiveYear == "Unknown symbol"
     stock.merge!(charts_from_iex_data(
@@ -41,7 +45,8 @@ class Stock
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
-    iexDayURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/1d"
+    iexDayURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/1d" +
+                "?token=#{ENV["IEX_API_KEY"]}"
     iexDay = HTTParty.get(iexDayURL).parsed_response
     return nil if iexDay == "Unknown symbol"
     stock.merge!(process_day(
@@ -55,7 +60,8 @@ class Stock
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
-    fiveYearURL = "https://api.iextrading.com/1.0/stock/#{lwrSymbol}/chart/5y"
+    fiveYearURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/5y" +
+                  "?token=#{ENV["IEX_API_KEY"]}"
     iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
     return nil if iexFiveYear == "Unknown symbol"
     stock.merge!(process_five_years(
@@ -274,7 +280,7 @@ class Stock
   end
 
   def self.parse_datetime(data)
-    args = [data["date"][0..3], data["date"][4..5], data["date"][6..7]]
+    args = data["date"].split("-")
     args += data["minute"].split(":")
     args << "00"
     args << "-04:00"
