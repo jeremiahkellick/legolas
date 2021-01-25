@@ -6,3 +6,5 @@
 #     https: false
 #   )
 # end
+
+ActiveRecord::Base.logger = nil

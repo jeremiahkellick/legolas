@@ -1,8 +1,24 @@
+QUOTA_ERROR_MSG = "You have exceeded your allotted message quota." +
+                  " Please enable pay-as-you-go to regain access"
+
 class Stock
+  def self.request(url)
+    good_result = nil
+    5.times do
+      res = HTTParty.get(
+        url + "?token=#{ENV["IEX_API_KEY_#{rand(11)}"]}"
+      ).parsed_response
+      if res != QUOTA_ERROR_MSG
+        good_result = res
+        break
+      end
+    end
+    raise "Out of quota" if good_result.nil?
+    good_result
+  end
+
   def self.price_cents(symbol)
-    url = "https://cloud.iexapis.com/v1/stock/#{symbol.downcase}/price" +
-          "?token=#{ENV["IEX_API_KEY"]}"
-    res = HTTParty.get(url).parsed_response
+    res = request "https://cloud.iexapis.com/v1/stock/#{symbol.downcase}/price"
     return nil unless res.is_a?(Numeric)
     (res * 100).round
   end
@@ -12,9 +28,8 @@ class Stock
     lwrSymbol = symbol.downcase
     stock = {}
     stock.merge!(charts(symbol))
-    iexCompanyURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/company" +
-                    "?token=#{ENV["IEX_API_KEY"]}"
-    iexCompany = HTTParty.get(iexCompanyURL).parsed_response
+    iexCompanyURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/company"
+    iexCompany = request(iexCompanyURL)
     unless iexCompany == "Unknown symbol"
       stock.merge!(iexCompany.slice("companyName", "description"))
     end
@@ -25,13 +40,10 @@ class Stock
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
-    iexDayURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/1d" +
-                "?token=#{ENV["IEX_API_KEY"]}"
-    iexDay = HTTParty.get(iexDayURL).parsed_response
+    iexDay = request("https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/1d")
     return nil if iexDay == "Unknown symbol"
-    fiveYearURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/5y" +
-                  "?token=#{ENV["IEX_API_KEY"]}"
-    iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
+    fiveYearURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/5y"
+    iexFiveYear = request(fiveYearURL)
     return nil if iexFiveYear == "Unknown symbol"
     stock.merge!(charts_from_iex_data(
       iexDay,
@@ -45,9 +57,7 @@ class Stock
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
-    iexDayURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/1d" +
-                "?token=#{ENV["IEX_API_KEY"]}"
-    iexDay = HTTParty.get(iexDayURL).parsed_response
+    iexDay = request("https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/1d")
     return nil if iexDay == "Unknown symbol"
     stock.merge!(process_day(
       iexDay,
@@ -60,9 +70,8 @@ class Stock
     symbol = symbol.upcase
     lwrSymbol = symbol.downcase
     stock = { symbol: symbol }
-    fiveYearURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/5y" +
-                  "?token=#{ENV["IEX_API_KEY"]}"
-    iexFiveYear = HTTParty.get(fiveYearURL).parsed_response
+    fiveYearURL = "https://cloud.iexapis.com/v1/stock/#{lwrSymbol}/chart/5y"
+    iexFiveYear = request(fiveYearURL)
     return nil if iexFiveYear == "Unknown symbol"
     stock.merge!(process_five_years(
       iexFiveYear,
